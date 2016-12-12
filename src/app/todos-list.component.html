@@ -1,0 +1,52 @@
+<div class="container">
+  <h3>My Todos</h3>
+</div>
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-{{colMd}}">
+        <form role="form">
+          <div class="form-group">
+            <label class="control-label" for="newTodo">New todo</label>
+            <input class="form-control"
+                   id="newTodo"
+                   placeholder="todo"
+                   type="text"
+                   #newTodo>
+          </div>
+          <button class="btn btn-default"
+                  (click)="create(newTodo.value); newTodo.value=''">
+            Add
+          </button>
+        </form>
+        <div style="height: 2em"></div>
+        <ul class="list-group">
+          <li *ngFor="let todo of todos"
+              class="list-group-item clearfix">
+            <input type="checkbox"
+                   [checked]="todo.done"
+                   (click)="updateCheckbox(todo); $event.stopPropagation()">
+            <span role="button" (click)="editTodo(todo)">{{todo.todo}}</span>
+            <span class="pull-right">
+              <button class="btn btn-xs btn-danger"
+                      (click)="delete(todo); $event.stopPropagation()">
+                Delete
+              </button>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="selectedTodo" class="col-md-4">
+        <h3>Edit task</h3>
+        <div class="form-group">
+          <label class="control-label" for="task">Todo: </label>
+          <input class="form-control"
+                 id="task"
+                 [(ngModel)]="selectedTodo.todo" placeholder="todo">
+        </div>
+        <button class="btn btn-default" (click)="cancel()">Cancel</button>
+        <button class="btn btn-default" (click)="update()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
