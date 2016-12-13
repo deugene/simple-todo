@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Todo } from './todo';
 
 import { TodoService } from './todo.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-todos-list',
@@ -11,21 +12,25 @@ import { TodoService } from './todo.service';
 })
 export class TodosListComponent implements OnInit {
   private colMd = 12;
+  private user_id: string;
   todos: Todo[];
   selectedTodo: Todo;
 
   constructor(
     private todoService: TodoService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.getAll();
+    this.authService.getUserProfile()
+      .then(profile => this.user_id = profile.identities[0].user_id)
+      .then(() => this.getAll());
   }
 
   getAll(): void {
     this.todoService
-      .getAll()
+      .getAll(this.user_id)
       .then(todos => this.todos = todos.sort((a, b) => b.added - a.added));
   }
   delete(todo: Todo): void {
@@ -38,7 +43,7 @@ export class TodosListComponent implements OnInit {
   }
   create(todo: string): void {
     this.todoService
-      .create(todo)
+      .create(todo, this.user_id)
       .then(() => this.getAll());
   }
   updateCheckbox(todo: Todo) {

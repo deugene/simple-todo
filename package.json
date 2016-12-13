@@ -5,7 +5,7 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "build-prod": "tsc --outDir ./dist/server --project tsconfig.json && ng build --prod --env=prod",
+    "build-prod": "tsc --outDir ./dist/server --project ./server/tsconfig.json && ng build --prod --env=prod",
     "dev": "gulp",
     "e2e": "protractor",
     "lint": "tslint \"src/**/*.ts\"",

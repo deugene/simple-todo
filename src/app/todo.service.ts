@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
-import { AuthService } from './auth.service';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -11,18 +10,12 @@ import { Todo } from './todo';
 export class TodoService {
   constructor(
     private http: Http,
-    private authHttp: AuthHttp,
-    private authService: AuthService
+    private authHttp: AuthHttp
   ) { }
-
-  getUserId = this.authService
-    .getUserProfile()
-    .then(profile => profile.identities[0].user_id);
 
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  getAll(): Promise<Todo[]> {
-    return this.getUserId.then(user_id => {
+  getAll(user_id: string): Promise<Todo[]> {
       return this.authHttp.get(`api/todos/${user_id}`)
       .toPromise()
       .then(res => {
@@ -30,7 +23,6 @@ export class TodoService {
         if (result.err) throw new Error(result.err);
         return result.data as Todo[];
       })
-    })
       .catch(this.handleError);
   }
   getTodo(_id: string): Promise<Todo> {
@@ -43,8 +35,7 @@ export class TodoService {
       })
       .catch(this.handleError);
   }
-  create(todo: string): Promise<Todo> {
-    return this.getUserId.then(user_id => {
+  create(todo: string, user_id: string): Promise<Todo> {
       return this.authHttp.post(
         'api/todo/',
         JSON.stringify({ todo: todo, done: false, user_id: user_id }),
@@ -55,7 +46,6 @@ export class TodoService {
         if (result.err) throw new Error(result.err);
         return null;
       })
-    })
       .catch(this.handleError);
   }
   update(todo: Todo): Promise<Todo> {

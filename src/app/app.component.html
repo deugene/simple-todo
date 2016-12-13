@@ -12,20 +12,22 @@
     <div class="collapse navbar-collapse" id="navbar-ex-collapse">
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="!authService.loggedIn()"
-            (click)=authService.login()>
+            (click)="authService.login()">
           <a role="button">Log In</a>
         </li>
         <li *ngIf="authService.loggedIn()"
-            (click)=authService.logout()>
+            (click)="authService.logout()">
           <a role="button">Log Out</a>
         </li>
         <li *ngIf="authService.loggedIn()"
-            (click)="navSwitch('todos')"
-            [class.active]="isActive('todos')">
+            routerLinkActive="active">
           <a routerLink="/todos">Todos</a>
         </li>
-        <li (click)="navSwitch('about')"
-            [class.active]="isActive('about')">
+        <li *ngIf="!authService.loggedIn()"
+            routerLinkActive="active">
+          <a routerLink="/home">Home</a>
+        </li>
+        <li routerLinkActive="active">
           <a routerLink="/about">About</a>
         </li>
       </ul>

@@ -1,14 +1,10 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "./.tsctmp/server"
-  },
-  "exclude": [
-    "node_modules/*",
-    "src/*",
-    "e2e/*"
-  ]
+  }
 }

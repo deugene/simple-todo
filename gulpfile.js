@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const shell = require('gulp-shell');
 const ts = require('gulp-typescript');
-const tsProject = ts.createProject('tsconfig.json');
+const tsProject = ts.createProject('./server/tsconfig.json');
 
 gulp.task('ts', () => {
   tsProject.src()

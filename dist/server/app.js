@@ -31,4 +31,3 @@ app.use((err, req, res, next) => {
     res.json({ err: err.message });
 });
 module.exports = app;
-//# sourceMappingURL=app.js.map

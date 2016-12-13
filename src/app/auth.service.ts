@@ -20,27 +20,21 @@ export class AuthService {
     this.auth0Config();
   }
 
-  auth0Config(): Promise<any> {
-    return this.http.get('api/config')
+  auth0Config(): void {
+    this.http.get('api/config')
       .toPromise()
       .then(res => {
         let result = res.json();
         if (result.err) throw new Error(result.err);
         this.lock = new Auth0Lock(result.clientId, result.domain);
-      })
-      .then(() => {
         this.lock.on('authenticated', (authResult: any) => {
           this.idToken = authResult.idToken;
           localStorage.setItem('id_token', authResult.idToken);
-          this.getUserProfile().then(() => {
-            this.lock.hide();
-            this.router.navigate([ '' ]);
-          });
+          this.getUserProfile().then(() => this.router.navigate([ '' ]));
         });
       })
       .catch(() => console.error('auth0 config error'));
   }
-
   getUserProfile(): Promise<any> {
     return new Promise(res => {
       let profile = JSON.parse(localStorage.getItem('profile'));
@@ -63,9 +57,12 @@ export class AuthService {
     localStorage.removeItem('id_token');
     this.idToken = null;
 
-    this.router.navigateByUrl('/about');
+    this.router.navigate([ 'home' ]);
   }
   loggedIn(): boolean {
-    return tokenNotExpired('id_token', this.idToken);
+    return tokenNotExpired(
+      'id_token',
+      localStorage.getItem('id_token') || this.idToken
+    );
   }
 }

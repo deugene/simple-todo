@@ -6,9 +6,11 @@ import { AUTH_PROVIDERS } from 'angular2-jwt';
 
 import { AboutComponent } from './about.component';
 import { TodosListComponent } from './todos-list.component';
+import { HomeComponent } from './home.component';
 
 const routes: Routes = [
   { path: 'todos', component: TodosListComponent, canActivate: [ AuthGuard ] },
+  { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/todos', pathMatch: 'full' },
   { path: 'about', component: AboutComponent }
 ];
@@ -16,7 +18,10 @@ const routes: Routes = [
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
   exports: [ RouterModule ],
-  providers: [ AUTH_PROVIDERS, AuthGuard ]
+  providers: [
+    AUTH_PROVIDERS,
+    AuthGuard,
+  ]
 })
 
 export class AppRoutingModule { }

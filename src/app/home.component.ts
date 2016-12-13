@@ -3,10 +3,10 @@ import { Component } from '@angular/core';
 import { AuthService } from './auth.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: [ './home.component.css' ]
 })
-export class AppComponent {
+export class HomeComponent {
   constructor(private authService: AuthService) { }
-  private title = 'Another 1500 Todo App';
 }
