@@ -79,6 +79,7 @@
         <label class="control-label" for="task">Todo: </label>
         <input class="form-control"
                id="task"
+               (keyup.enter)="update(); dialog.cancel()"
                [(ngModel)]="selectedTodo.todo" placeholder="todo">
       </div>
       <button class="btn btn-default" (click)="dialog.cancel()">
