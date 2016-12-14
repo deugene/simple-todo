@@ -11,3 +11,4 @@ const todoSchema = new mongoose.Schema({
 exports.Todo = mongoose.model('Todo', todoSchema);
 ;
 new Date();
+//# sourceMappingURL=todo.js.map

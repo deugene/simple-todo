@@ -22,31 +22,72 @@
         <div style="height: 2em"></div>
         <ul class="list-group">
           <li *ngFor="let todo of todos"
-              class="list-group-item clearfix">
-            <input type="checkbox"
-                   [checked]="todo.done"
-                   (click)="updateCheckbox(todo); $event.stopPropagation()">
-            <span role="button" (click)="editTodo(todo)">{{todo.todo}}</span>
+              class="list-group-item clearfix"
+              (click)="update(todo); $event.stopPropagation()"
+              role="button">
+            <input type="checkbox" [checked]="todo.done">
+            <span>{{todo.todo}}</span>
             <span class="pull-right">
-              <button class="btn btn-xs btn-danger"
-                      (click)="delete(todo); $event.stopPropagation()">
-                Delete
-              </button>
+              <span>
+                <button class="btn btn-xs btn-primary"
+                        (click)="showModal(todo, 'edit'); $event.stopPropagation()">
+                  Edit
+                </button>
+              </span>
+              <span>
+                <button class="btn btn-xs btn-danger"
+                        (click)="showModal(todo, 'delete'); $event.stopPropagation()">
+                  Delete
+                </button>
+              </span>
             </span>
           </li>
         </ul>
       </div>
-      <div *ngIf="selectedTodo" class="col-md-4">
-        <h3>Edit task</h3>
-        <div class="form-group">
-          <label class="control-label" for="task">Todo: </label>
-          <input class="form-control"
-                 id="task"
-                 [(ngModel)]="selectedTodo.todo" placeholder="todo">
-        </div>
-        <button class="btn btn-default" (click)="cancel()">Cancel</button>
-        <button class="btn btn-default" (click)="update()">Save</button>
-      </div>
     </div>
   </div>
 </div>
+
+<app-dialog [(dialogOptions)]="showDialog" #dialog>
+
+  <div *ngIf="showDialog.type === 'delete'">
+    <div class="text-center">
+      <h1 id="del-dialog-header">Are you shure?</h1>
+      <div class="container-fluid">
+        <div class="row row-centered">
+          <div class="col-md-4 col-centered">
+            <button class="btn-block btn btn-lg btn-primary"
+                    (click)="dialog.cancel()">
+              No
+            </button>
+          </div>
+          <div class="col-md-4 col-centered">
+            <button class="btn-block btn btn-lg btn-danger"
+                    (click)="delete(); dialog.cancel()">
+              Yes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showDialog.type === 'edit'">
+    <div class="container-fluid">
+      <h3>Edit task</h3>
+      <div class="form-group" *ngIf="selectedTodo">
+        <label class="control-label" for="task">Todo: </label>
+        <input class="form-control"
+               id="task"
+               [(ngModel)]="selectedTodo.todo" placeholder="todo">
+      </div>
+      <button class="btn btn-default" (click)="dialog.cancel()">
+        Cancel
+      </button>
+      <button class="btn btn-primary" (click)="update(); dialog.cancel()">
+        Save
+      </button>
+    </div>
+  </div>
+
+</app-dialog>

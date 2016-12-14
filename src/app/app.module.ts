@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { TodosListComponent } from './todos-list.component';
 import { AboutComponent } from './about.component';
 import { HomeComponent } from './home.component';
+import { DialogComponent } from './dialog.component';
 
 import { AuthService } from './auth.service';
 import { TodoService } from './todo.service';
@@ -25,7 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     TodosListComponent,
     AboutComponent,
-    HomeComponent
+    HomeComponent,
+    DialogComponent
   ],
   providers: [
     TodoService,
