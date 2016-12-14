@@ -30,7 +30,7 @@ export class AuthService {
         this.lock.on('authenticated', (authResult: any) => {
           this.idToken = authResult.idToken;
           localStorage.setItem('id_token', authResult.idToken);
-          this.getUserProfile().then(() => this.router.navigate([ '' ]));
+          this.getUserProfile().then(() => this.router.navigate([ 'todos' ]));
         });
       })
       .catch(() => console.error('auth0 config error'));
