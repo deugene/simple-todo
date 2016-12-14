@@ -22,7 +22,7 @@ var AboutComponent = (function () {
     AboutComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-todo',
-            template: __webpack_require__(643)
+            template: __webpack_require__(646)
         }), 
         __metadata('design:paramtypes', [])
     ], AboutComponent);
@@ -58,7 +58,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-root',
-            template: __webpack_require__(644)
+            template: __webpack_require__(647)
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */]) === 'function' && _a) || Object])
     ], AppComponent);
@@ -94,8 +94,8 @@ var HomeComponent = (function () {
     HomeComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-home',
-            template: __webpack_require__(645),
-            styles: [__webpack_require__(642)]
+            template: __webpack_require__(649),
+            styles: [__webpack_require__(644)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */]) === 'function' && _a) || Object])
     ], HomeComponent);
@@ -284,7 +284,7 @@ var TodosListComponent = (function () {
     TodosListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-todos-list',
-            template: __webpack_require__(646)
+            template: __webpack_require__(650)
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__todo_service__["a" /* TodoService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__todo_service__["a" /* TodoService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */]) === 'function' && _c) || Object])
     ], TodosListComponent);
@@ -313,12 +313,12 @@ webpackEmptyContext.id = 376;
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_ts__ = __webpack_require__(488);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_ts__ = __webpack_require__(489);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__polyfills_ts__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(457);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(487);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app___ = __webpack_require__(486);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(488);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app___ = __webpack_require__(487);
 
 
 
@@ -496,7 +496,7 @@ var AuthGuard = (function () {
 
 /***/ },
 
-/***/ 486:
+/***/ 487:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -510,7 +510,7 @@ var AuthGuard = (function () {
 
 /***/ },
 
-/***/ 487:
+/***/ 488:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -526,41 +526,41 @@ var environment = {
 
 /***/ },
 
-/***/ 488:
+/***/ 489:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_es6_symbol__ = __webpack_require__(502);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_es6_symbol__ = __webpack_require__(503);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_core_js_es6_symbol___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_core_js_es6_symbol__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_core_js_es6_object__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_core_js_es6_object__ = __webpack_require__(496);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_core_js_es6_object___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_core_js_es6_object__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_core_js_es6_function__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_core_js_es6_function__ = __webpack_require__(492);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_core_js_es6_function___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_core_js_es6_function__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_es6_parse_int__ = __webpack_require__(497);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_es6_parse_int__ = __webpack_require__(498);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_core_js_es6_parse_int___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_core_js_es6_parse_int__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_core_js_es6_parse_float__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_core_js_es6_parse_float__ = __webpack_require__(497);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_core_js_es6_parse_float___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_core_js_es6_parse_float__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_core_js_es6_number__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_core_js_es6_number__ = __webpack_require__(495);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_core_js_es6_number___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_core_js_es6_number__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_core_js_es6_math__ = __webpack_require__(493);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_core_js_es6_math__ = __webpack_require__(494);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_core_js_es6_math___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_core_js_es6_math__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_core_js_es6_string__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_core_js_es6_string__ = __webpack_require__(502);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_core_js_es6_string___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_core_js_es6_string__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_core_js_es6_date__ = __webpack_require__(490);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_core_js_es6_date__ = __webpack_require__(491);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_core_js_es6_date___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_core_js_es6_date__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_core_js_es6_array__ = __webpack_require__(489);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_core_js_es6_array__ = __webpack_require__(490);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_core_js_es6_array___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_core_js_es6_array__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_core_js_es6_regexp__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_core_js_es6_regexp__ = __webpack_require__(500);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_core_js_es6_regexp___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_core_js_es6_regexp__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_core_js_es6_map__ = __webpack_require__(492);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_core_js_es6_map__ = __webpack_require__(493);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_core_js_es6_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_core_js_es6_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_core_js_es6_set__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_core_js_es6_set__ = __webpack_require__(501);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_core_js_es6_set___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_core_js_es6_set__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect__ = __webpack_require__(499);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__ = __webpack_require__(503);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__ = __webpack_require__(504);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__ = __webpack_require__(666);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__ = __webpack_require__(670);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__);
 
 
@@ -582,42 +582,42 @@ var environment = {
 
 /***/ },
 
-/***/ 642:
+/***/ 644:
 /***/ function(module, exports) {
 
 module.exports = ".btn {\n  font-size: 2.5em;\n  margin: 1em 0 3em;\n  padding: 0.5em 1em;\n}\n"
 
 /***/ },
 
-/***/ 643:
+/***/ 646:
 /***/ function(module, exports) {
 
 module.exports = "<div class=\"container\">\n  <h3>About</h3>\n</div><div class=\"container\">\n  <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h4>\n  <div style=\"height: 10em\"></div>\n</div>\n"
 
 /***/ },
 
-/***/ 644:
+/***/ 647:
 /***/ function(module, exports) {
 
 module.exports = "<div class=\"navbar navbar-default navbar-static-top\">\n  <div class=\"container\">\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#navbar-ex-collapse\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" routerLink=\"/todos\"><span>{{title}}</span></a>\n    </div>\n    <div class=\"collapse navbar-collapse\" id=\"navbar-ex-collapse\">\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li *ngIf=\"!authService.loggedIn()\"\n            (click)=\"authService.login()\">\n          <a role=\"button\">Log In</a>\n        </li>\n        <li *ngIf=\"authService.loggedIn()\"\n            (click)=\"authService.logout()\">\n          <a role=\"button\">Log Out</a>\n        </li>\n        <li *ngIf=\"authService.loggedIn()\"\n            routerLinkActive=\"active\">\n          <a routerLink=\"/todos\">Todos</a>\n        </li>\n        <li *ngIf=\"!authService.loggedIn()\"\n            routerLinkActive=\"active\">\n          <a routerLink=\"/home\">Home</a>\n        </li>\n        <li routerLinkActive=\"active\">\n          <a routerLink=\"/about\">About</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</div>\n\n<router-outlet></router-outlet>\n\n<footer class=\"section section-primary\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-sm-6\">\n        <h1>Contact Us!</h1>\n        <p>ievgen@lorem.ipsum</p>\n      </div>\n      <div class=\"col-sm-6\">\n        <p class=\"text-info text-right\">\n          <br>\n          <br>\n        </p>\n        <div class=\"row\">\n          <div class=\"col-md-12 hidden-lg hidden-md hidden-sm text-left\">\n            <a href=\"https://www.facebook.com/profile.php?id=100004862738922\">\n              <i class=\"fa fa-3x fa-fw fa-facebook text-inverse\"></i>\n            </a>\n            <a href=\"https://github.com/deugene\">\n              <i class=\"fa fa-3x fa-fw fa-github text-inverse\"></i>\n            </a>\n          </div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-md-12 hidden-xs text-right\">\n            <a href=\"https://www.facebook.com/profile.php?id=100004862738922\">\n              <i class=\"fa fa-3x fa-fw fa-facebook text-inverse\"></i>\n            </a>\n            <a href=\"https://github.com/deugene\">\n              <i class=\"fa fa-3x fa-fw fa-github text-inverse\"></i>\n            </a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</footer>\n"
 
 /***/ },
 
-/***/ 645:
+/***/ 649:
 /***/ function(module, exports) {
 
 module.exports = "<div class=\"container\">\n   <div class=\"row\">\n     <div class=\"col-md-12\">\n       <h1 class=\"text-center\">Welcome to the Simple Todo App!</h1>\n     </div>\n   </div>\n   <div class=\"row\">\n     <div class=\"col-md-12 text-center\">\n       <a class=\"btn btn-lg btn-primary\"\n          (click)=\"authService.login()\">\n        Sign up!\n      </a>\n     </div>\n   </div>\n </div>\n"
 
 /***/ },
 
-/***/ 646:
+/***/ 650:
 /***/ function(module, exports) {
 
 module.exports = "<div class=\"container\">\n  <h3>My Todos</h3>\n</div>\n<div class=\"section\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-md-{{colMd}}\">\n        <form role=\"form\">\n          <div class=\"form-group\">\n            <label class=\"control-label\" for=\"newTodo\">New todo</label>\n            <input class=\"form-control\"\n                   id=\"newTodo\"\n                   placeholder=\"todo\"\n                   type=\"text\"\n                   #newTodo>\n          </div>\n          <button class=\"btn btn-default\"\n                  (click)=\"create(newTodo.value); newTodo.value=''\">\n            Add\n          </button>\n        </form>\n        <div style=\"height: 2em\"></div>\n        <ul class=\"list-group\">\n          <li *ngFor=\"let todo of todos\"\n              class=\"list-group-item clearfix\">\n            <input type=\"checkbox\"\n                   [checked]=\"todo.done\"\n                   (click)=\"updateCheckbox(todo); $event.stopPropagation()\">\n            <span role=\"button\" (click)=\"editTodo(todo)\">{{todo.todo}}</span>\n            <span class=\"pull-right\">\n              <button class=\"btn btn-xs btn-danger\"\n                      (click)=\"delete(todo); $event.stopPropagation()\">\n                Delete\n              </button>\n            </span>\n          </li>\n        </ul>\n      </div>\n      <div *ngIf=\"selectedTodo\" class=\"col-md-4\">\n        <h3>Edit task</h3>\n        <div class=\"form-group\">\n          <label class=\"control-label\" for=\"task\">Todo: </label>\n          <input class=\"form-control\"\n                 id=\"task\"\n                 [(ngModel)]=\"selectedTodo.todo\" placeholder=\"todo\">\n        </div>\n        <button class=\"btn btn-default\" (click)=\"cancel()\">Cancel</button>\n        <button class=\"btn btn-default\" (click)=\"update()\">Save</button>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 
-/***/ 667:
+/***/ 671:
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(377);
@@ -713,5 +713,5 @@ var AuthService = (function () {
 
 /***/ }
 
-},[667]);
+},[671]);
 //# sourceMappingURL=main.bundle.map
