@@ -9,6 +9,8 @@ import { AboutComponent } from './about.component';
 import { HomeComponent } from './home.component';
 import { DialogComponent } from './dialog.component';
 
+import { DragulaModule } from 'ng2-dragula/ng2-dragula';
+
 import { AuthService } from './auth.service';
 import { TodoService } from './todo.service';
 
@@ -20,7 +22,8 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DragulaModule
   ],
   declarations: [
     AppComponent,

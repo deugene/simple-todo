@@ -21,27 +21,28 @@
         </form>
         <div style="height: 2em"></div>
         <ul class="list-group">
-          <li *ngFor="let todo of todos"
-              class="list-group-item clearfix"
-              (click)="update(todo); $event.stopPropagation()"
-              role="button">
-            <input type="checkbox" [checked]="todo.done">
-            <span>{{todo.todo}}</span>
-            <span class="pull-right">
-              <span>
-                <button class="btn btn-xs btn-primary"
-                        (click)="showModal(todo, 'edit'); $event.stopPropagation()">
-                  Edit
-                </button>
+          <div *ngFor="let todo of todos" class="container" [dragula]="first-bag" [dragulaModel]="items">
+            <li class="list-group-item clearfix"
+                (click)="update(todo); $event.stopPropagation()"
+                role="button">
+              <input type="checkbox" [checked]="todo.done">
+              <span>{{todo.todo}}</span>
+              <span class="pull-right">
+                <span>
+                  <button class="btn btn-xs btn-primary"
+                          (click)="showModal(todo, 'edit'); $event.stopPropagation()">
+                    Edit
+                  </button>
+                </span>
+                <span>
+                  <button class="btn btn-xs btn-danger"
+                          (click)="showModal(todo, 'delete'); $event.stopPropagation()">
+                    Delete
+                  </button>
+                </span>
               </span>
-              <span>
-                <button class="btn btn-xs btn-danger"
-                        (click)="showModal(todo, 'delete'); $event.stopPropagation()">
-                  Delete
-                </button>
-              </span>
-            </span>
-          </li>
+            </li>
+          </div>
         </ul>
       </div>
     </div>
