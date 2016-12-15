@@ -6,8 +6,8 @@ const todoSchema = new mongoose.Schema({
     todo: String,
     done: Boolean,
     user_id: String,
-    added: Number
+    added: Number,
+    position: Number
 });
 exports.Todo = mongoose.model('Todo', todoSchema);
 ;
-new Date();

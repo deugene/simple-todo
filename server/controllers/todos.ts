@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { Todo, iTodo, DocumentQueryTodo } from '../models/todo';
+import { Todo, DocumentQueryTodo } from '../models/todo';
 
 function action(
   promise: DocumentQueryTodo,
@@ -35,4 +35,4 @@ export const todos = {
     let id = req.params.id;
     action(Todo.findByIdAndRemove(id), res, next);
   }
-}
+};

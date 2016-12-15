@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
+  title = 'Another 1500 Todo App';
+
   constructor(private authService: AuthService) { }
-  private title = 'Another 1500 Todo App';
 }

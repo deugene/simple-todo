@@ -8,19 +8,19 @@ import { Todo } from './todo';
 
 @Injectable()
 export class TodoService {
+  private headers = new Headers({'Content-Type': 'application/json'});
+
   constructor(
     private http: Http,
     private authHttp: AuthHttp
   ) { }
-
-  private headers = new Headers({'Content-Type': 'application/json'});
 
   getAll(user_id: string): Promise<Todo[]> {
       return this.authHttp.get(`api/todos/${user_id}`)
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) throw new Error(result.err);
+        if (result.err) { throw new Error(result.err); }
         return result.data as Todo[];
       })
       .catch(this.handleError);
@@ -30,20 +30,20 @@ export class TodoService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) throw new Error(result.err);
+        if (result.err) { throw new Error(result.err); }
         return result.data as Todo;
       })
       .catch(this.handleError);
   }
-  create(todo: string, user_id: string): Promise<Todo> {
+  create(todo: Todo): Promise<Todo> {
       return this.authHttp.post(
         'api/todo/',
-        JSON.stringify({ todo: todo, done: false, user_id: user_id }),
+        JSON.stringify(todo),
         { headers: this.headers }
       ).toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) throw new Error(result.err);
+        if (result.err) { throw new Error(result.err); }
         return null;
       })
       .catch(this.handleError);
@@ -54,7 +54,7 @@ export class TodoService {
     ).toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) throw new Error(result.err);
+        if (result.err) { throw new Error(result.err); }
         return null;
       })
       .catch(this.handleError);
@@ -66,7 +66,7 @@ export class TodoService {
     ).toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) throw new Error(result.err);
+        if (result.err) { throw new Error(result.err); }
         return null;
       })
       .catch(this.handleError);

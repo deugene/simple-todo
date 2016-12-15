@@ -141,8 +141,9 @@ var TodoService = (function () {
             .toPromise()
             .then(function (res) {
             var result = res.json();
-            if (result.err)
+            if (result.err) {
                 throw new Error(result.err);
+            }
             return result.data;
         })
             .catch(this.handleError);
@@ -152,18 +153,20 @@ var TodoService = (function () {
             .toPromise()
             .then(function (res) {
             var result = res.json();
-            if (result.err)
+            if (result.err) {
                 throw new Error(result.err);
+            }
             return result.data;
         })
             .catch(this.handleError);
     };
-    TodoService.prototype.create = function (todo, user_id) {
-        return this.authHttp.post('api/todo/', JSON.stringify({ todo: todo, done: false, user_id: user_id }), { headers: this.headers }).toPromise()
+    TodoService.prototype.create = function (todo) {
+        return this.authHttp.post('api/todo/', JSON.stringify(todo), { headers: this.headers }).toPromise()
             .then(function (res) {
             var result = res.json();
-            if (result.err)
+            if (result.err) {
                 throw new Error(result.err);
+            }
             return null;
         })
             .catch(this.handleError);
@@ -172,8 +175,9 @@ var TodoService = (function () {
         return this.authHttp.put("api/todo/" + todo._id, JSON.stringify(todo), { headers: this.headers }).toPromise()
             .then(function (res) {
             var result = res.json();
-            if (result.err)
+            if (result.err) {
                 throw new Error(result.err);
+            }
             return null;
         })
             .catch(this.handleError);
@@ -182,8 +186,9 @@ var TodoService = (function () {
         return this.authHttp.delete("api/todo/" + _id, { headers: this.headers }).toPromise()
             .then(function (res) {
             var result = res.json();
-            if (result.err)
+            if (result.err) {
                 throw new Error(result.err);
+            }
             return null;
         })
             .catch(this.handleError);
@@ -210,6 +215,8 @@ var TodoService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__todo_service__ = __webpack_require__(322);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_service__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_dragula_ng2_dragula__ = __webpack_require__(683);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_dragula_ng2_dragula___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_dragula_ng2_dragula__);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return TodosListComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -224,13 +231,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TodosListComponent = (function () {
-    function TodosListComponent(todoService, router, authService) {
+    function TodosListComponent(todoService, router, authService, dragulaService) {
         this.todoService = todoService;
         this.router = router;
         this.authService = authService;
+        this.dragulaService = dragulaService;
         this.showDialog = { visible: false, type: '' };
+        dragulaService.drag.subscribe(function (value, source) {
+            console.log(value);
+            console.log('---');
+            console.log(source);
+        });
+        dragulaService.dropModel.subscribe(function (value, source) {
+            console.log(value);
+            console.log('---');
+            console.log(source);
+        });
     }
+    TodosListComponent.prototype.onDrag = function () {
+    };
+    TodosListComponent.prototype.onDrop = function () {
+    };
     TodosListComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.authService.getUserProfile()
@@ -241,7 +264,7 @@ var TodosListComponent = (function () {
         var _this = this;
         this.todoService
             .getAll(this.user_id)
-            .then(function (todos) { return _this.todos = todos.sort(function (a, b) { return b.added - a.added; }); });
+            .then(function (todos) { return _this.todos = todos.sort(function (a, b) { return a.position - b.position; }); });
     };
     TodosListComponent.prototype.showModal = function (todo, type) {
         this.selectedTodo = todo;
@@ -262,8 +285,18 @@ var TodosListComponent = (function () {
     };
     TodosListComponent.prototype.create = function (todo) {
         var _this = this;
-        this.todoService
-            .create(todo, this.user_id)
+        var position;
+        if (this.todos.length > 1) {
+            position = this.todos.reduce(function (min, cur) { return min.position < cur.position ? min : cur; }).position;
+        }
+        else if (this.todos.length === 1) {
+            position = this.todos[0].position;
+        }
+        else {
+            position = 10000000;
+        }
+        var newTodo = { todo: todo, done: false, user_id: this.user_id, position: position - 1 };
+        this.todoService.create(newTodo)
             .then(function () { return _this.getAll(); });
     };
     TodosListComponent.prototype.cancel = function () {
@@ -283,10 +316,10 @@ var TodosListComponent = (function () {
             template: __webpack_require__(650),
             styles: [__webpack_require__(645)],
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__todo_service__["a" /* TodoService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__todo_service__["a" /* TodoService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */]) === 'function' && _c) || Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__todo_service__["a" /* TodoService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__todo_service__["a" /* TodoService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4_ng2_dragula_ng2_dragula__["DragulaService"] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4_ng2_dragula_ng2_dragula__["DragulaService"]) === 'function' && _d) || Object])
     ], TodosListComponent);
     return TodosListComponent;
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
 }());
 //# sourceMappingURL=/home/eugenes/js/simple-todo/src/todos-list.component.js.map
 
@@ -661,7 +694,7 @@ module.exports = ".btn {\n  font-size: 2.5em;\n  margin: 1em 0 3em;\n  padding: 
 /***/ 645:
 /***/ function(module, exports) {
 
-module.exports = "#del-dialog-header {\n  margin-bottom: 30px;\n}\n\n.row-centered {\n  text-align: center;\n}\n\n.col-centered {\n  display: inline-block;\n  float: none;\n  text-align: left;\n  margin-right: -4px;\n}\n"
+module.exports = "#del-dialog-header {\n  margin-bottom: 30px;\n}\n\n.row-centered {\n  text-align: center;\n}\n\n.col-centered {\n  display: inline-block;\n  text-align: left;\n  margin-right: -4px;\n}\n\n.list-group {\n  margin-top: 2em;\n}\n"
 
 /***/ },
 
@@ -696,7 +729,7 @@ module.exports = "<div class=\"container\">\n   <div class=\"row\">\n     <div c
 /***/ 650:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <h3>My Todos</h3>\n</div>\n<div class=\"section\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-md-{{colMd}}\">\n        <form role=\"form\">\n          <div class=\"form-group\">\n            <label class=\"control-label\" for=\"newTodo\">New todo</label>\n            <input class=\"form-control\"\n                   id=\"newTodo\"\n                   placeholder=\"todo\"\n                   type=\"text\"\n                   #newTodo>\n          </div>\n          <button class=\"btn btn-default\"\n                  (click)=\"create(newTodo.value); newTodo.value=''\">\n            Add\n          </button>\n        </form>\n        <div style=\"height: 2em\"></div>\n        <ul class=\"list-group\">\n          <div *ngFor=\"let todo of todos\" class=\"container\" [dragula]=\"first-bag\" [dragulaModel]=\"items\">\n            <li class=\"list-group-item clearfix\"\n                (click)=\"update(todo); $event.stopPropagation()\"\n                role=\"button\">\n              <input type=\"checkbox\" [checked]=\"todo.done\">\n              <span>{{todo.todo}}</span>\n              <span class=\"pull-right\">\n                <span>\n                  <button class=\"btn btn-xs btn-primary\"\n                          (click)=\"showModal(todo, 'edit'); $event.stopPropagation()\">\n                    Edit\n                  </button>\n                </span>\n                <span>\n                  <button class=\"btn btn-xs btn-danger\"\n                          (click)=\"showModal(todo, 'delete'); $event.stopPropagation()\">\n                    Delete\n                  </button>\n                </span>\n              </span>\n            </li>\n          </div>\n        </ul>\n      </div>\n    </div>\n  </div>\n</div>\n\n<app-dialog [(dialogOptions)]=\"showDialog\" #dialog>\n\n  <div *ngIf=\"showDialog.type === 'delete'\">\n    <div class=\"text-center\">\n      <h1 id=\"del-dialog-header\">Are you shure?</h1>\n      <div class=\"container-fluid\">\n        <div class=\"row row-centered\">\n          <div class=\"col-md-4 col-centered\">\n            <button class=\"btn-block btn btn-lg btn-primary\"\n                    (click)=\"dialog.cancel()\">\n              No\n            </button>\n          </div>\n          <div class=\"col-md-4 col-centered\">\n            <button class=\"btn-block btn btn-lg btn-danger\"\n                    (click)=\"delete(); dialog.cancel()\">\n              Yes\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"showDialog.type === 'edit'\">\n    <div class=\"container-fluid\">\n      <h3>Edit task</h3>\n      <div class=\"form-group\" *ngIf=\"selectedTodo\">\n        <label class=\"control-label\" for=\"task\">Todo: </label>\n        <input class=\"form-control\"\n               id=\"task\"\n               (keyup.enter)=\"update(); dialog.cancel()\"\n               [(ngModel)]=\"selectedTodo.todo\" placeholder=\"todo\">\n      </div>\n      <button class=\"btn btn-default\" (click)=\"dialog.cancel()\">\n        Cancel\n      </button>\n      <button class=\"btn btn-primary\" (click)=\"update(); dialog.cancel()\">\n        Save\n      </button>\n    </div>\n  </div>\n\n</app-dialog>\n"
+module.exports = "<div class=\"container\">\n  <h3>My Todos</h3>\n</div>\n<div class=\"section\">\n  <div class=\"container\">\n    <form role=\"form\">\n      <div class=\"form-group\">\n        <label class=\"control-label\" for=\"newTodo\">New todo</label>\n        <input class=\"form-control\"\n                id=\"newTodo\"\n                placeholder=\"todo\"\n                type=\"text\"\n                #newTodo>\n      </div>\n      <button class=\"btn btn-default\"\n              (click)=\"create(newTodo.value); newTodo.value=''\">\n        Add\n      </button>\n    </form>\n    <ul class=\"list-group\">\n      <div *ngFor=\"let todo of todos\" class=\"container\" [dragula]='\"first-bag\"' [dragulaModel]=\"todos\">\n        <li class=\"list-group-item clearfix\"\n            (click)=\"update(todo); $event.stopPropagation()\"\n            role=\"button\">\n          <input type=\"checkbox\" [checked]=\"todo.done\">\n          <span>{{todo.todo}}{{todo.position}}</span>\n          <span class=\"pull-right\">\n            <span>\n              <button class=\"btn btn-xs btn-primary\"\n                      (click)=\"showModal(todo, 'edit'); $event.stopPropagation()\">\n                Edit\n              </button>\n            </span>\n            <span>\n              <button class=\"btn btn-xs btn-danger\"\n                      (click)=\"showModal(todo, 'delete'); $event.stopPropagation()\">\n                Delete\n              </button>\n            </span>\n          </span>\n        </li>\n      </div>\n    </ul>\n  </div>\n</div>\n\n<app-dialog [(dialogOptions)]=\"showDialog\" #dialog>\n\n  <div *ngIf=\"showDialog.type === 'delete'\">\n    <div class=\"text-center\">\n      <h1 id=\"del-dialog-header\">Are you shure?</h1>\n      <div class=\"container-fluid\">\n        <div class=\"row row-centered\">\n          <div class=\"col-md-4 col-centered\">\n            <button class=\"btn-block btn btn-lg btn-primary\"\n                    (click)=\"dialog.cancel()\">\n              No\n            </button>\n          </div>\n          <div class=\"col-md-4 col-centered\">\n            <button class=\"btn-block btn btn-lg btn-danger\"\n                    (click)=\"delete(); dialog.cancel()\">\n              Yes\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"showDialog.type === 'edit'\">\n    <div class=\"container-fluid\">\n      <h3>Edit task</h3>\n      <div class=\"form-group\" *ngIf=\"selectedTodo\">\n        <label class=\"control-label\" for=\"task\">Todo: </label>\n        <input class=\"form-control\"\n               id=\"task\"\n               (keyup.enter)=\"update(); dialog.cancel()\"\n               [(ngModel)]=\"selectedTodo.todo\" placeholder=\"todo\">\n      </div>\n      <button class=\"btn btn-default\" (click)=\"dialog.cancel()\">\n        Cancel\n      </button>\n      <button class=\"btn btn-primary\" (click)=\"update(); dialog.cancel()\">\n        Save\n      </button>\n    </div>\n  </div>\n\n</app-dialog>\n"
 
 /***/ },
 
@@ -746,8 +779,9 @@ var AuthService = (function () {
             .toPromise()
             .then(function (res) {
             var result = res.json();
-            if (result.err)
+            if (result.err) {
                 throw new Error(result.err);
+            }
             _this.lock = new Auth0Lock(result.clientId, result.domain);
             _this.lock.on('authenticated', function (authResult) {
                 _this.idToken = authResult.idToken;
@@ -760,14 +794,15 @@ var AuthService = (function () {
     AuthService.prototype.getUserProfile = function () {
         var _this = this;
         return new Promise(function (res) {
-            var profile = JSON.parse(localStorage.getItem('profile'));
-            if (profile) {
-                res(profile);
+            var prof = JSON.parse(localStorage.getItem('profile'));
+            if (prof) {
+                res(prof);
                 return;
             }
             _this.lock.getProfile(_this.idToken, function (err, profile) {
-                if (err)
+                if (err) {
                     throw new Error(err.message);
+                }
                 localStorage.setItem('profile', JSON.stringify(profile));
                 res(profile);
             });

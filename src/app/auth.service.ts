@@ -25,7 +25,7 @@ export class AuthService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) throw new Error(result.err);
+        if (result.err) { throw new Error(result.err); }
         this.lock = new Auth0Lock(result.clientId, result.domain);
         this.lock.on('authenticated', (authResult: any) => {
           this.idToken = authResult.idToken;
@@ -37,13 +37,13 @@ export class AuthService {
   }
   getUserProfile(): Promise<any> {
     return new Promise(res => {
-      let profile = JSON.parse(localStorage.getItem('profile'));
-      if (profile) {
-        res(profile);
+      let prof = JSON.parse(localStorage.getItem('profile'));
+      if (prof) {
+        res(prof);
         return;
       }
       this.lock.getProfile(this.idToken, (err: any, profile: any) => {
-        if (err) throw new Error(err.message);
+        if (err) { throw new Error(err.message); }
         localStorage.setItem('profile', JSON.stringify(profile));
         res(profile);
       });

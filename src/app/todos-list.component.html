@@ -3,49 +3,44 @@
 </div>
 <div class="section">
   <div class="container">
-    <div class="row">
-      <div class="col-md-{{colMd}}">
-        <form role="form">
-          <div class="form-group">
-            <label class="control-label" for="newTodo">New todo</label>
-            <input class="form-control"
-                   id="newTodo"
-                   placeholder="todo"
-                   type="text"
-                   #newTodo>
-          </div>
-          <button class="btn btn-default"
-                  (click)="create(newTodo.value); newTodo.value=''">
-            Add
-          </button>
-        </form>
-        <div style="height: 2em"></div>
-        <ul class="list-group">
-          <div *ngFor="let todo of todos" class="container" [dragula]="first-bag" [dragulaModel]="items">
-            <li class="list-group-item clearfix"
-                (click)="update(todo); $event.stopPropagation()"
-                role="button">
-              <input type="checkbox" [checked]="todo.done">
-              <span>{{todo.todo}}</span>
-              <span class="pull-right">
-                <span>
-                  <button class="btn btn-xs btn-primary"
-                          (click)="showModal(todo, 'edit'); $event.stopPropagation()">
-                    Edit
-                  </button>
-                </span>
-                <span>
-                  <button class="btn btn-xs btn-danger"
-                          (click)="showModal(todo, 'delete'); $event.stopPropagation()">
-                    Delete
-                  </button>
-                </span>
-              </span>
-            </li>
-          </div>
-        </ul>
+    <form role="form">
+      <div class="form-group">
+        <label class="control-label" for="newTodo">New todo</label>
+        <input class="form-control"
+                id="newTodo"
+                placeholder="todo"
+                type="text"
+                #newTodo>
       </div>
-    </div>
+      <button class="btn btn-default"
+              (click)="create(newTodo.value); newTodo.value=''">
+        Add
+      </button>
+    </form>
+    <ul class="list-group">
+      <div *ngFor="let todo of todos" class="container" [dragula]='"first-bag"' [dragulaModel]="todos">
+        <li class="list-group-item clearfix"
+            (click)="update(todo); $event.stopPropagation()"
+            role="button">
+          <input type="checkbox" [checked]="todo.done">
+          <span>{{todo.todo}}{{todo.position}}</span>
+          <span class="pull-right">
+            <span>
+              <button class="btn btn-xs btn-primary"
+                      (click)="showModal(todo, 'edit'); $event.stopPropagation()">
+                Edit
+              </button>
+            </span>
+            <span>
+              <button class="btn btn-xs btn-danger"
+                      (click)="showModal(todo, 'delete'); $event.stopPropagation()">
+                Delete
+              </button>
+            </span>
+          </span>
+        </li>
+      </div>
+    </ul>
   </div>
 </div>
 

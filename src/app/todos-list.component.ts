@@ -6,6 +6,8 @@ import { Todo } from './todo';
 import { TodoService } from './todo.service';
 import { AuthService } from './auth.service';
 
+import { DragulaService } from 'ng2-dragula/ng2-dragula';
+
 @Component({
   selector: 'app-todos-list',
   templateUrl: './todos-list.component.html',
@@ -22,8 +24,25 @@ export class TodosListComponent implements OnInit {
     private todoService: TodoService,
     private router: Router,
     private authService: AuthService,
-  ) { }
+    private dragulaService: DragulaService
+  ) {
+    dragulaService.drag.subscribe((value, source) => {
+      console.log(value);
+      console.log('---');
+      console.log(source);
+    });
+    dragulaService.dropModel.subscribe((value, source) => {
+      console.log(value);
+      console.log('---');
+      console.log(source);
+    });
+  }
+  onDrag(): void {
 
+  }
+  onDrop(): void {
+
+  }
   ngOnInit(): void {
     this.authService.getUserProfile()
       .then(profile => this.user_id = profile.identities[0].user_id)
@@ -33,7 +52,7 @@ export class TodosListComponent implements OnInit {
   getAll(): void {
     this.todoService
       .getAll(this.user_id)
-      .then(todos => this.todos = todos.sort((a, b) => b.added - a.added));
+      .then(todos => this.todos = todos.sort((a, b) => a.position - b.position));
   }
   showModal(todo: Todo, type: string): void {
     this.selectedTodo = todo;
@@ -52,8 +71,16 @@ export class TodosListComponent implements OnInit {
       });
   }
   create(todo: string): void {
-    this.todoService
-      .create(todo, this.user_id)
+    let position: number;
+    if (this.todos.length > 1) {
+      position = this.todos.reduce((min, cur) => min.position < cur.position ? min : cur).position;
+    } else if (this.todos.length === 1) {
+      position = this.todos[0].position;
+    } else {
+      position = 10000000;
+    }
+    let newTodo = { todo: todo, done: false, user_id: this.user_id, position: position - 1 };
+    this.todoService.create(newTodo)
       .then(() => this.getAll());
   }
   cancel(): void {
