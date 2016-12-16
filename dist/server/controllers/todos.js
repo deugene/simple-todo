@@ -44,3 +44,4 @@ exports.todos = {
         action(todo_1.Todo.findByIdAndRemove(id), res, next);
     }
 };
+//# sourceMappingURL=todos.js.map
