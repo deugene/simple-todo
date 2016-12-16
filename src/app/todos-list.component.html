@@ -5,44 +5,45 @@
   <div class="container">
     <form role="form">
       <div class="form-group">
-        <label class="control-label" for="newTodo">New todo</label>
-        <input class="form-control"
-                id="newTodo"
-                placeholder="todo"
-                type="text"
-                #newTodo>
-      </div>
-      <button class="btn btn-default"
-              (click)="create(newTodo.value); newTodo.value=''">
-        Add
-      </button>
-    </form>
-    <ul class="list-group">
-      <div class="container-fluid" [dragula]="'todos-list-bag'">
-        <li *ngFor="let todo of todos"
-            class="list-group-item clearfix"
-            [id]="todo._id"
-            (click)="update(todo); $event.stopPropagation()"
-            role="button">
-          <input type="checkbox" [checked]="todo.done">
-          <span>{{todo.todo}}</span>
-          <span class="pull-right">
-            <span>
-              <button class="btn btn-xs btn-primary"
-                      (click)="showModal(todo, 'edit'); $event.stopPropagation()">
-                Edit
-              </button>
-            </span>
-            <span>
-              <button class="btn btn-xs btn-danger"
-                      (click)="showModal(todo, 'delete'); $event.stopPropagation()">
-                Delete
-              </button>
-            </span>
+        <div class="input-group">
+          <input type="text"
+                 class="form-control"
+                 placeholder="todo"
+                 #newTodo
+                 (keyup.enter)="create(newTodo.value); newTodo.value=''">
+          <span class="input-group-btn">
+            <a class="btn btn-default"
+               (click)="create(newTodo.value); newTodo.value=''">
+              New Todo
+            </a>
           </span>
-        </li>
+        </div>
       </div>
-    </ul>
+    </form>
+  </div>
+  <div class="list-group container" [dragula]="'todos-list-bag'">
+    <li *ngFor="let todo of todos"
+        class="list-group-item clearfix"
+        [id]="todo._id"
+        (click)="update(todo); $event.stopPropagation()"
+        role="button">
+      <input type="checkbox" [checked]="todo.done">
+      <span>{{todo.todo}}</span>
+      <span class="pull-right">
+        <span>
+          <button class="btn btn-xs btn-primary"
+                  (click)="showModal(todo, 'edit'); $event.stopPropagation()">
+            Edit
+          </button>
+        </span>
+        <span>
+          <button class="btn btn-xs btn-danger"
+                  (click)="showModal(todo, 'delete'); $event.stopPropagation()">
+            Delete
+          </button>
+        </span>
+      </span>
+    </li>
   </div>
 </div>
 
@@ -50,11 +51,11 @@
 
   <div *ngIf="showDialog.type === 'delete'">
     <div class="text-center">
-      <h1 id="del-dialog-header">Are you shure?</h1>
+      <h2 id="del-dialog-header">Are you shure?</h2>
       <div class="container-fluid">
         <div class="row row-centered">
           <div class="col-md-4 col-centered">
-            <button class="btn-block btn btn-lg btn-primary"
+            <button class="btn-block btn btn-lg btn-default"
                     (click)="dialog.cancel()">
               No
             </button>
@@ -72,7 +73,9 @@
 
   <div *ngIf="showDialog.type === 'edit'">
     <div class="container-fluid">
-      <h3>Edit task</h3>
+      <div class="text-center">
+        <h2>Edit task</h2>
+      </div>
       <div class="form-group" *ngIf="selectedTodo">
         <label class="control-label" for="task">Todo: </label>
         <input class="form-control"
@@ -80,12 +83,14 @@
                (keyup.enter)="update(); dialog.cancel()"
                [(ngModel)]="selectedTodo.todo" placeholder="todo">
       </div>
-      <button class="btn btn-default" (click)="dialog.cancel()">
-        Cancel
-      </button>
-      <button class="btn btn-primary" (click)="update(); dialog.cancel()">
-        Save
-      </button>
+      <div class="text-right">
+        <button class="btn btn-default" (click)="dialog.cancel()">
+          Cancel
+        </button>
+        <button class="btn btn-primary" (click)="update(); dialog.cancel()">
+          Save
+        </button>
+      </div>
     </div>
   </div>
 
