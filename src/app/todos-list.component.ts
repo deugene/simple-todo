@@ -36,19 +36,28 @@ export class TodosListComponent implements OnInit {
     let droppedTodo = this.todos
       .find(todo => todo._id === droppedTodoEl.getAttribute('id'));
 
-    let nextTodo = this.todos
-      .find(todo => todo._id === nextTodoEl.getAttribute('id'));
+    let nextTodo = nextTodoEl
+      ? this.todos
+        .find(todo => todo._id === nextTodoEl.getAttribute('id'))
+      : undefined;
 
-    this.todos.map(todo => {
-      if (todo._id !== droppedTodo._id && todo.position < nextTodo.position) {
-        todo.position = todo.position - 1;
-      } else if (todo._id === droppedTodo._id) {
-        todo.position = nextTodo.position - 1;
-      }
-      return todo;
-    });
+    let maxPosition = this.todos
+      .reduce((cur, max) => cur.position > max.position ? cur : max).position;
 
-    this.todoService.updateAll(this.todos, this.user_id);
+    if (nextTodo) {
+      this.todos.map(todo => {
+        if (todo._id !== droppedTodo._id && todo.position < nextTodo.position) {
+          todo.position = todo.position - 1;
+        } else if (todo._id === droppedTodo._id) {
+          todo.position = nextTodo.position - 1;
+        }
+        return todo;
+      });
+      this.todoService.updateAll(this.todos, this.user_id);
+    } else {
+      droppedTodo.position = maxPosition + 1;
+      this.todoService.update(droppedTodo);
+    }
   }
 
   ngOnInit(): void {
@@ -85,7 +94,7 @@ export class TodosListComponent implements OnInit {
     } else if (this.todos.length === 1) {
       position = this.todos[0].position;
     } else {
-      position = 10000000;
+      position = 0;
     }
     let newTodo = { todo: todo, done: false, user_id: this.user_id, position: position - 1 };
     this.todoService.create(newTodo)
