@@ -22,15 +22,15 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DragulaModule
   ],
   declarations: [
     AppComponent,
     TodosListComponent,
     AboutComponent,
     HomeComponent,
-    DialogComponent,
-    DragulaModule
+    DialogComponent
   ],
   providers: [
     TodoService,
