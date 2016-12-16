@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { Todo, DocumentQueryTodo } from '../models/todo';
+import { Todo, DocumentQueryTodo, ITodo } from '../models/todo';
 
 function action(
   promise: DocumentQueryTodo,
@@ -13,25 +13,40 @@ function action(
 }
 
 export const todos = {
-  getAll(req: Request, res: Response, next: NextFunction) {
+  getAll(req: Request, res: Response, next: NextFunction): void {
     let user_id = req.params.user_id;
     action(Todo.find({ user_id: user_id }), res, next);
   },
-  getTodo(req: Request, res: Response, next: NextFunction) {
+  getTodo(req: Request, res: Response, next: NextFunction): void {
     let id = req.params.id;
     action(Todo.findById(id), res, next);
   },
-  create(req: Request, res: Response, next: NextFunction) {
+  create(req: Request, res: Response, next: NextFunction): void {
     let data = req.body;
     data.added = Date.now();
     let newTodo = new Todo(data);
     action(newTodo.save() as any, res, next);
   },
-  update(req: Request, res: Response, next: NextFunction) {
+  update(req: Request, res: Response, next: NextFunction): void {
     let id = req.params.id;
     action(Todo.findByIdAndUpdate(id, req.body), res, next);
   },
-  delete(req: Request, res: Response, next: NextFunction) {
+  updateAll(req: Request, res: Response, next: NextFunction): void {
+    let updatedTodos = req.body.todos as Array<any>;
+    let count = 0;
+    if (updatedTodos) {
+      updatedTodos.forEach(updatedTodo => {
+        Todo.findByIdAndUpdate(updatedTodo._id, updatedTodo)
+        .then(() => {
+          if (++count === updatedTodos.length) {
+            res.json({ message: 'success', data: updatedTodos });
+          }
+        })
+        .catch(next);
+      });
+    }
+  },
+  delete(req: Request, res: Response, next: NextFunction): void {
     let id = req.params.id;
     action(Todo.findByIdAndRemove(id), res, next);
   }

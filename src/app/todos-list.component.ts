@@ -26,23 +26,31 @@ export class TodosListComponent implements OnInit {
     private authService: AuthService,
     private dragulaService: DragulaService
   ) {
-    dragulaService.drag.subscribe((value, source) => {
-      console.log(value);
-      console.log('---');
-      console.log(source);
-    });
-    dragulaService.dropModel.subscribe((value, source) => {
-      console.log(value);
-      console.log('---');
-      console.log(source);
+    dragulaService.drop.subscribe((value: Array<any>): void => {
+      this.onDrop(value.slice(1));
     });
   }
-  onDrag(): void {
+  onDrop(args: Array<HTMLElement>): void {
+    let [ droppedTodoEl, from, to, nextTodoEl ] = args;
 
-  }
-  onDrop(): void {
+    let droppedTodo = this.todos
+      .find(todo => todo._id === droppedTodoEl.getAttribute('id'));
 
+    let nextTodo = this.todos
+      .find(todo => todo._id === nextTodoEl.getAttribute('id'));
+
+    this.todos.map(todo => {
+      if (todo._id !== droppedTodo._id && todo.position < nextTodo.position) {
+        todo.position = todo.position - 1;
+      } else if (todo._id === droppedTodo._id) {
+        todo.position = nextTodo.position - 1;
+      }
+      return todo;
+    });
+
+    this.todoService.updateAll(this.todos, this.user_id);
   }
+
   ngOnInit(): void {
     this.authService.getUserProfile()
       .then(profile => this.user_id = profile.identities[0].user_id)

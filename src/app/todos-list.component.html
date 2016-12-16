@@ -18,12 +18,14 @@
       </button>
     </form>
     <ul class="list-group">
-      <div *ngFor="let todo of todos" class="container" [dragula]='"first-bag"' [dragulaModel]="todos">
-        <li class="list-group-item clearfix"
+      <div class="container-fluid" [dragula]="'todos-list-bag'">
+        <li *ngFor="let todo of todos"
+            class="list-group-item clearfix"
+            [id]="todo._id"
             (click)="update(todo); $event.stopPropagation()"
             role="button">
           <input type="checkbox" [checked]="todo.done">
-          <span>{{todo.todo}}{{todo.position}}</span>
+          <span>{{todo.todo}}</span>
           <span class="pull-right">
             <span>
               <button class="btn btn-xs btn-primary"

@@ -59,6 +59,17 @@ export class TodoService {
       })
       .catch(this.handleError);
   }
+  updateAll(todos: Todo[], user_id: string): Promise<Todo[]> {
+    return this.authHttp.put(
+      `api/todos/${user_id}`, JSON.stringify({ todos: todos }), { headers: this.headers }
+    ).toPromise()
+      .then(res => {
+        let result = res.json();
+        if (result.err) { throw new Error(result.err); }
+        return null;
+      })
+      .catch(this.handleError);
+  }
   delete(_id: string): Promise<Todo> {
     return this.authHttp.delete(
       `api/todo/${_id}`,

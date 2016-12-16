@@ -24,6 +24,21 @@ exports.todos = {
         let id = req.params.id;
         action(todo_1.Todo.findByIdAndUpdate(id, req.body), res, next);
     },
+    updateAll(req, res, next) {
+        let updatedTodos = req.body.todos;
+        let count = 0;
+        if (updatedTodos) {
+            updatedTodos.forEach(updatedTodo => {
+                todo_1.Todo.findByIdAndUpdate(updatedTodo._id, updatedTodo)
+                    .then(() => {
+                    if (++count === updatedTodos.length) {
+                        res.json({ message: 'success', data: updatedTodos });
+                    }
+                })
+                    .catch(next);
+            });
+        }
+    },
     delete(req, res, next) {
         let id = req.params.id;
         action(todo_1.Todo.findByIdAndRemove(id), res, next);

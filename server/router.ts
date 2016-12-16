@@ -28,7 +28,7 @@ router.use(cors());
 const authCheck = jwt({
   secret: new Buffer(auth0ClientSecret, 'base64'),
   audience: auth0ClientId
-})
+});
 
 router.get ('/api/config', (req, res) => {
   res.json({ domain: auth0Domain, clientId: auth0ClientId });
@@ -43,6 +43,7 @@ router.get   ('/api/todos/:user_id', todos.getAll);
 router.get   ('/api/todo/:id',       todos.getTodo);
 router.post  ('/api/todo',           todos.create);
 router.put   ('/api/todo/:id',       todos.update);
+router.put   ('/api/todos/:user_id', todos.updateAll);
 router.delete('/api/todo/:id',       todos.delete);
 
 export default router;

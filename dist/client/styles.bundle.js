@@ -1,15 +1,15 @@
 webpackJsonp([1,3],{
 
-/***/ 378:
+/***/ 381:
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(640);
+var content = __webpack_require__(648);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(669)(content, {});
+var update = __webpack_require__(680)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -27,10 +27,10 @@ if(false) {
 
 /***/ },
 
-/***/ 640:
+/***/ 648:
 /***/ function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(641)();
+exports = module.exports = __webpack_require__(649)();
 // imports
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Lato|Lato);", ""]);
 
@@ -42,7 +42,7 @@ exports.push([module.i, "/* You can add global styles to this file, and also imp
 
 /***/ },
 
-/***/ 641:
+/***/ 649:
 /***/ function(module, exports) {
 
 /*
@@ -99,7 +99,7 @@ module.exports = function() {
 
 /***/ },
 
-/***/ 669:
+/***/ 680:
 /***/ function(module, exports) {
 
 /*
@@ -352,13 +352,13 @@ function updateLink(linkElement, obj) {
 
 /***/ },
 
-/***/ 672:
+/***/ 684:
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(378);
+module.exports = __webpack_require__(381);
 
 
 /***/ }
 
-},[672]);
+},[684]);
 //# sourceMappingURL=styles.bundle.map

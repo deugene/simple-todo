@@ -34,6 +34,7 @@ router.get('/api/todos/:user_id', todos_1.todos.getAll);
 router.get('/api/todo/:id', todos_1.todos.getTodo);
 router.post('/api/todo', todos_1.todos.create);
 router.put('/api/todo/:id', todos_1.todos.update);
+router.put('/api/todos/:user_id', todos_1.todos.updateAll);
 router.delete('/api/todo/:id', todos_1.todos.delete);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = router;
