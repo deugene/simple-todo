@@ -7,6 +7,7 @@ import { TodoService } from './todo.service';
 import { AuthService } from './auth.service';
 
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
+import { PushNotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-todos-list',
@@ -15,6 +16,8 @@ import { DragulaService } from 'ng2-dragula/ng2-dragula';
 })
 export class TodosListComponent implements OnInit {
   private user_id: string;
+  private push: any;
+
   showDialog = { visible: false, type: '' };
 
   todos: Todo[];
@@ -24,7 +27,8 @@ export class TodosListComponent implements OnInit {
     private todoService: TodoService,
     private router: Router,
     private authService: AuthService,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private notificationsService: PushNotificationsService
   ) {
     dragulaService.drop.subscribe((value: Array<any>): void => {
       this.onDrop(value.slice(1));
@@ -63,7 +67,8 @@ export class TodosListComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getUserProfile()
       .then(profile => this.user_id = profile.identities[0].user_id)
-      .then(() => this.getAll());
+      .then(() => this.getAll())
+      .then(() => this.notificationsService.requestPermission());
   }
 
   getAll(): void {
