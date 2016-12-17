@@ -15,7 +15,7 @@ import { DragulaService } from 'ng2-dragula/ng2-dragula';
 })
 export class TodosListComponent implements OnInit {
   private user_id: string;
-  private showDialog = { visible: false, type: '' };
+  showDialog = { visible: false, type: '' };
 
   todos: Todo[];
   selectedTodo: Todo;
