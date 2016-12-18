@@ -248,14 +248,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var TodosListComponent = (function () {
-    function TodosListComponent(todoService, router, authService, dragulaService, notificationsService) {
+    function TodosListComponent(todoService, router, authService, dragulaService, push) {
         var _this = this;
         this.todoService = todoService;
         this.router = router;
         this.authService = authService;
         this.dragulaService = dragulaService;
-        this.notificationsService = notificationsService;
+        this.push = push;
         this.showDialog = { visible: false, type: '' };
+        this.reminderInputType = 'hidden';
         dragulaService.drop.subscribe(function (value) {
             _this.onDrop(value.slice(1));
         });
@@ -291,22 +292,17 @@ var TodosListComponent = (function () {
         var _this = this;
         this.authService.getUserProfile()
             .then(function (profile) { return _this.user_id = profile.identities[0].user_id; })
-            .then(function () { return _this.getAll(); })
-            .then(function () { return _this.notificationsService.requestPermission(); });
+            .then(function () { return _this.getAll()
+            .then(function () {
+            _this.push.requestPermission();
+            _this.remind();
+        }); });
     };
     TodosListComponent.prototype.getAll = function () {
         var _this = this;
-        this.todoService
+        return this.todoService
             .getAll(this.user_id)
             .then(function (todos) { return _this.todos = todos.sort(function (a, b) { return a.position - b.position; }); });
-    };
-    TodosListComponent.prototype.showModal = function (todo, type) {
-        this.selectedTodo = todo;
-        this.showDialog.visible = !this.showDialog.visible;
-        this.showDialog.type = type;
-    };
-    TodosListComponent.prototype.edit = function (todo) {
-        this.selectedTodo = todo;
     };
     TodosListComponent.prototype.delete = function () {
         var _this = this;
@@ -317,11 +313,12 @@ var TodosListComponent = (function () {
             _this.selectedTodo = null;
         });
     };
-    TodosListComponent.prototype.create = function (todo) {
+    TodosListComponent.prototype.create = function (todo, reminder) {
         var _this = this;
         var position;
         if (this.todos.length > 1) {
-            position = this.todos.reduce(function (min, cur) { return min.position < cur.position ? min : cur; }).position;
+            position = this.todos
+                .reduce(function (min, cur) { return min.position < cur.position ? min : cur; }).position;
         }
         else if (this.todos.length === 1) {
             position = this.todos[0].position;
@@ -329,12 +326,16 @@ var TodosListComponent = (function () {
         else {
             position = 0;
         }
-        var newTodo = { todo: todo, done: false, user_id: this.user_id, position: position - 1 };
-        this.todoService.create(newTodo)
-            .then(function () { return _this.getAll(); });
-    };
-    TodosListComponent.prototype.cancel = function () {
-        this.getAll();
+        var newTodo;
+        newTodo = {
+            todo: todo,
+            done: false,
+            user_id: this.user_id,
+            position: position - 1,
+            reminder: reminder || ''
+        };
+        this.reminderInputType = 'hidden';
+        this.todoService.create(newTodo).then(function () { return _this.getAll(); });
     };
     TodosListComponent.prototype.update = function (todo) {
         var _this = this;
@@ -343,6 +344,50 @@ var TodosListComponent = (function () {
             this.selectedTodo = todo;
         }
         this.todoService.update(this.selectedTodo).then(function () { return _this.getAll(); });
+    };
+    TodosListComponent.prototype.cancel = function () {
+        this.getAll();
+    };
+    TodosListComponent.prototype.showModal = function (todo, type) {
+        this.selectedTodo = todo;
+        this.showDialog.visible = !this.showDialog.visible;
+        this.showDialog.type = type;
+    };
+    TodosListComponent.prototype.toggleReminderInputType = function () {
+        this.reminderInputType = this.reminderInputType === 'hidden'
+            ? 'datetime-local'
+            : 'hidden';
+    };
+    TodosListComponent.prototype.remind = function () {
+        var _this = this;
+        new Promise(function (res, rej) {
+            var count = 0;
+            var todosToRemind = _this.todos.filter(function (todo) {
+                var remindDate = Date.parse(todo.reminder);
+                return remindDate && remindDate < Date.now();
+            });
+            if (todosToRemind && todosToRemind.length > 0) {
+                todosToRemind.forEach(function (todo) {
+                    _this.push.create('Reminder', { body: todo.todo })
+                        .subscribe(function (result) { }, function (err) { return rej(err); }, function () {
+                        todo.reminder = '';
+                        _this.todoService.update(todo)
+                            .then(function () {
+                            if (++count >= todosToRemind.length) {
+                                res();
+                            }
+                        });
+                    });
+                });
+            }
+            else {
+                res();
+            }
+        })
+            .then(function (refresh) {
+            setTimeout(_this.remind.bind(_this), 10000);
+        })
+            .catch(function (err) { return console.log(err); });
     };
     TodosListComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -739,7 +784,7 @@ module.exports = ".btn {\n  font-size: 2.5em;\n  margin: 1em 0 3em;\n  padding: 
 /***/ 674:
 /***/ function(module, exports) {
 
-module.exports = "#del-dialog-header {\n  margin-bottom: 30px;\n}\n\n.row-centered {\n  text-align: center;\n}\n\n.col-centered {\n  display: inline-block;\n  float: none;\n  text-align: left;\n  margin-right: -4px;\n}\n\n.list-group {\n  margin-top: 2em;\n}\n\n.list-group {\n  padding-left: 14px;\n}\n"
+module.exports = "#del-dialog-header {\n  margin-bottom: 30px;\n}\n\n.row-centered {\n  text-align: center;\n}\n\n.col-centered {\n  display: inline-block;\n  float: none;\n  text-align: left;\n  margin-right: -4px;\n}\n\n.list-group {\n  margin-top: 2em;\n}\n\n.list-group {\n  padding-left: 14px;\n}\n\na.btn {\n  width: 8em;\n}\n\n.section {\n  padding-right: 4vw;\n}\n\n#reminder {\n  max-width: 14em;\n  float: right;\n}\n\n#reminder-group {\n  margin-top: 1em;\n}\n"
 
 /***/ },
 
@@ -774,7 +819,7 @@ module.exports = "<div class=\"container\">\n   <div class=\"row\">\n     <div c
 /***/ 679:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <h3>My Todos</h3>\n</div>\n<div class=\"section\">\n  <div class=\"container\">\n    <form role=\"form\">\n      <div class=\"form-group\">\n        <div class=\"input-group\">\n          <input type=\"text\"\n                 class=\"form-control\"\n                 placeholder=\"todo\"\n                 #newTodo\n                 (keyup.enter)=\"create(newTodo.value); newTodo.value=''\">\n          <span class=\"input-group-btn\">\n            <a class=\"btn btn-default\"\n               (click)=\"create(newTodo.value); newTodo.value=''\">\n              New Todo\n            </a>\n          </span>\n        </div>\n      </div>\n    </form>\n  </div>\n  <div class=\"list-group container\" [dragula]=\"'todos-list-bag'\">\n    <li *ngFor=\"let todo of todos\"\n        class=\"list-group-item clearfix\"\n        [id]=\"todo._id\"\n        (click)=\"update(todo); $event.stopPropagation()\"\n        role=\"button\">\n      <input type=\"checkbox\" [checked]=\"todo.done\">\n      <span>{{todo.todo}}</span>\n      <span class=\"pull-right\">\n        <span>\n          <button class=\"btn btn-xs btn-primary\"\n                  (click)=\"showModal(todo, 'edit'); $event.stopPropagation()\">\n            Edit\n          </button>\n        </span>\n        <span>\n          <button class=\"btn btn-xs btn-danger\"\n                  (click)=\"showModal(todo, 'delete'); $event.stopPropagation()\">\n            Delete\n          </button>\n        </span>\n      </span>\n    </li>\n  </div>\n</div>\n\n<app-dialog [(dialogOptions)]=\"showDialog\" #dialog>\n\n  <div *ngIf=\"showDialog.type === 'delete'\">\n    <div class=\"text-center\">\n      <h2 id=\"del-dialog-header\">Are you shure?</h2>\n      <div class=\"container-fluid\">\n        <div class=\"row row-centered\">\n          <div class=\"col-md-4 col-centered\">\n            <button class=\"btn-block btn btn-lg btn-default\"\n                    (click)=\"dialog.cancel()\">\n              No\n            </button>\n          </div>\n          <div class=\"col-md-4 col-centered\">\n            <button class=\"btn-block btn btn-lg btn-danger\"\n                    (click)=\"delete(); dialog.cancel()\">\n              Yes\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"showDialog.type === 'edit'\">\n    <div class=\"container-fluid\">\n      <div class=\"text-center\">\n        <h2>Edit task</h2>\n      </div>\n      <div class=\"form-group\" *ngIf=\"selectedTodo\">\n        <label class=\"control-label\" for=\"task\">Todo: </label>\n        <input class=\"form-control\"\n               id=\"task\"\n               (keyup.enter)=\"update(); dialog.cancel()\"\n               [(ngModel)]=\"selectedTodo.todo\" placeholder=\"todo\">\n      </div>\n      <div class=\"text-right\">\n        <button class=\"btn btn-default\" (click)=\"dialog.cancel()\">\n          Cancel\n        </button>\n        <button class=\"btn btn-primary\" (click)=\"update(); dialog.cancel()\">\n          Save\n        </button>\n      </div>\n    </div>\n  </div>\n\n</app-dialog>\n"
+module.exports = "<div class=\"container\">\n  <h3>My Todos</h3>\n</div>\n<div class=\"section\">\n  <div class=\"container\">\n    <form role=\"form\">\n      <div class=\"form-group\">\n        <div class=\"input-group\">\n          <input type=\"text\"\n                 class=\"form-control\"\n                 placeholder=\"todo\"\n                 #newTodo\n                 (keyup.enter)=\"create(newTodo.value); newTodo.value=''; remindDate.value = ''\">\n          <span class=\"input-group-btn\">\n            <a class=\"btn btn-default\"\n               (click)=\"create(newTodo.value, remindDate.value); newTodo.value=''; remindDate.value = ''\">\n              New Todo\n            </a>\n          </span>\n        </div>\n        <div class=\"input-group text-right\" id=\"reminder-group\">\n          <input [type]=\"reminderInputType\"\n                 class=\"form-control\"\n                 id=\"reminder\"\n                 #remindDate>\n          <span class=\"input-group-btn\">\n            <a class=\"btn btn-default\"\n               (click)=\"toggleReminderInputType()\">\n              Set Reminder\n            </a>\n          </span>\n        </div>\n      </div>\n    </form>\n  </div>\n  <div class=\"list-group container\" [dragula]=\"'todos-list-bag'\">\n    <li *ngFor=\"let todo of todos\"\n        class=\"list-group-item clearfix\"\n        [id]=\"todo._id\"\n        (click)=\"update(todo); $event.stopPropagation()\"\n        role=\"button\">\n      <input type=\"checkbox\" [checked]=\"todo.done\">\n      <span>{{todo.todo}}</span>\n      <span class=\"pull-right\">\n        <span *ngIf=\"todo.reminder\">\n          Reminder: {{todo.reminder}}\n        </span>\n        <span>\n          <button class=\"btn btn-xs btn-primary\"\n                  (click)=\"showModal(todo, 'edit'); $event.stopPropagation()\">\n            Edit\n          </button>\n        </span>\n        <span>\n          <button class=\"btn btn-xs btn-danger\"\n                  (click)=\"showModal(todo, 'delete'); $event.stopPropagation()\">\n            Delete\n          </button>\n        </span>\n      </span>\n    </li>\n  </div>\n</div>\n\n<app-dialog [(dialogOptions)]=\"showDialog\" #dialog>\n\n  <div *ngIf=\"showDialog.type === 'delete'\">\n    <div class=\"text-center\">\n      <h2 id=\"del-dialog-header\">Are you shure?</h2>\n      <div class=\"container-fluid\">\n        <div class=\"row row-centered\">\n          <div class=\"col-md-4 col-centered\">\n            <button class=\"btn-block btn btn-lg btn-default\"\n                    (click)=\"dialog.cancel()\">\n              No\n            </button>\n          </div>\n          <div class=\"col-md-4 col-centered\">\n            <button class=\"btn-block btn btn-lg btn-danger\"\n                    (click)=\"delete(); dialog.cancel()\">\n              Yes\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"showDialog.type === 'edit'\">\n    <div class=\"container-fluid\">\n      <div class=\"text-center\">\n        <h2>Edit task</h2>\n      </div>\n      <div class=\"form-group\" *ngIf=\"selectedTodo\">\n        <label class=\"control-label\" for=\"task\">Todo: </label>\n        <input class=\"form-control\"\n                id=\"task\"\n                (keyup.enter)=\"update(); dialog.cancel()\"\n                [(ngModel)]=\"selectedTodo.todo\" placeholder=\"todo\">\n\n        <label class=\"control-label\" for=\"edit-reminder\">Reminder: </label>\n        <input type=\"datetime-local\"\n               class=\"form-control\"\n               id=\"edit-reminder\"\n               [(ngModel)]=\"selectedTodo.reminder\">\n        <div class=\"text-right\">\n          <button class=\"btn btn-default\" (click)=\"cancel(); dialog.cancel()\">\n            Cancel\n          </button>\n          <button class=\"btn btn-primary\" (click)=\"update(); dialog.cancel()\">\n            Save\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n</app-dialog>\n"
 
 /***/ },
 

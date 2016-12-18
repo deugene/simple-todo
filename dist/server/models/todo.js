@@ -7,7 +7,8 @@ const todoSchema = new mongoose.Schema({
     done: Boolean,
     user_id: String,
     added: Number,
-    position: Number
+    position: Number,
+    reminder: String
 });
 exports.Todo = mongoose.model('Todo', todoSchema);
 ;

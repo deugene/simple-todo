@@ -10,11 +10,23 @@
                  class="form-control"
                  placeholder="todo"
                  #newTodo
-                 (keyup.enter)="create(newTodo.value); newTodo.value=''">
+                 (keyup.enter)="create(newTodo.value); newTodo.value=''; remindDate.value = ''">
           <span class="input-group-btn">
             <a class="btn btn-default"
-               (click)="create(newTodo.value); newTodo.value=''">
+               (click)="create(newTodo.value, remindDate.value); newTodo.value=''; remindDate.value = ''">
               New Todo
+            </a>
+          </span>
+        </div>
+        <div class="input-group text-right" id="reminder-group">
+          <input [type]="reminderInputType"
+                 class="form-control"
+                 id="reminder"
+                 #remindDate>
+          <span class="input-group-btn">
+            <a class="btn btn-default"
+               (click)="toggleReminderInputType()">
+              Set Reminder
             </a>
           </span>
         </div>
@@ -30,6 +42,9 @@
       <input type="checkbox" [checked]="todo.done">
       <span>{{todo.todo}}</span>
       <span class="pull-right">
+        <span *ngIf="todo.reminder">
+          Reminder: {{todo.reminder}}
+        </span>
         <span>
           <button class="btn btn-xs btn-primary"
                   (click)="showModal(todo, 'edit'); $event.stopPropagation()">
@@ -79,17 +94,23 @@
       <div class="form-group" *ngIf="selectedTodo">
         <label class="control-label" for="task">Todo: </label>
         <input class="form-control"
-               id="task"
-               (keyup.enter)="update(); dialog.cancel()"
-               [(ngModel)]="selectedTodo.todo" placeholder="todo">
-      </div>
-      <div class="text-right">
-        <button class="btn btn-default" (click)="dialog.cancel()">
-          Cancel
-        </button>
-        <button class="btn btn-primary" (click)="update(); dialog.cancel()">
-          Save
-        </button>
+                id="task"
+                (keyup.enter)="update(); dialog.cancel()"
+                [(ngModel)]="selectedTodo.todo" placeholder="todo">
+
+        <label class="control-label" for="edit-reminder">Reminder: </label>
+        <input type="datetime-local"
+               class="form-control"
+               id="edit-reminder"
+               [(ngModel)]="selectedTodo.reminder">
+        <div class="text-right">
+          <button class="btn btn-default" (click)="cancel(); dialog.cancel()">
+            Cancel
+          </button>
+          <button class="btn btn-primary" (click)="update(); dialog.cancel()">
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -5,4 +5,5 @@ export class Todo {
   position: number;
   added?: number;
   _id?: string;
+  reminder?: string;
 }

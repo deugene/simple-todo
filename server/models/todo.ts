@@ -8,6 +8,7 @@ export interface ITodo {
   user_id: string;
   added: number;
   position: number;
+  reminder?: string;
 }
 
 export interface TodoModel extends ITodo, mongoose.Document { };
@@ -16,7 +17,8 @@ const todoSchema = new mongoose.Schema({
   done: Boolean,
   user_id: String,
   added: Number,
-  position: Number
+  position: Number,
+  reminder: String
 });
 
 export const Todo = mongoose.model<TodoModel>('Todo', todoSchema);
