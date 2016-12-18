@@ -7,7 +7,7 @@ import { TodoService } from './todo.service';
 import { AuthService } from './auth.service';
 
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
-import { PushNotificationsService } from 'angular2-notifications';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-todos-list',
@@ -16,18 +16,22 @@ import { PushNotificationsService } from 'angular2-notifications';
 })
 export class TodosListComponent implements OnInit {
   private user_id: string;
+  private todosToRemind: Todo[];
 
   todos: Todo[];
   selectedTodo: Todo;
   showDialog = { visible: false, type: '' };
   reminderInputType = 'hidden';
+  notificationsOptions = {
+    position: [ 'top', 'right' ]
+  };
 
   constructor(
     private todoService: TodoService,
     private router: Router,
     private authService: AuthService,
     private dragulaService: DragulaService,
-    private push: PushNotificationsService
+    private notificationsService: NotificationsService
   ) {
     dragulaService.drop.subscribe((value: Array<any>): void => {
       this.onDrop(value.slice(1));
@@ -69,7 +73,6 @@ export class TodosListComponent implements OnInit {
       .then(profile => this.user_id = profile.identities[0].user_id)
       .then(() => this.getAll()
         .then(() => {
-          this.push.requestPermission();
           this.remind();
         })
       );
@@ -136,34 +139,29 @@ export class TodosListComponent implements OnInit {
       : 'hidden';
   }
   remind(): void {
-    new Promise((res, rej) => {
-      let count = 0;
-      let todosToRemind = this.todos.filter(todo => {
+    new Promise(res => {
+      this.todosToRemind = this.todos.filter(todo => {
         let remindDate = Date.parse(todo.reminder);
         return remindDate && remindDate < Date.now();
       });
-      if (todosToRemind && todosToRemind.length > 0) {
-        todosToRemind.forEach(todo => {
-          this.push.create('Reminder', { body: todo.todo })
-            .subscribe(
-              result => { },
-              err => rej(err),
-              () => {
-                todo.reminder = '';
-                this.todoService.update(todo)
-                  .then(() => {
-                    if (++count >= todosToRemind.length) { res(); }
-                  });
-              }
-          );
-        });
-      } else {
-        res();
-      }
+      if (this.todosToRemind.length === 0) { return res(); }
+      this.todosToRemind.forEach(todo => {
+        this.notificationsService.success(
+          'Reminder',
+          todo.todo,
+          { id: todo._id }
+        );
+      });
     })
-    .then(refresh => {
-      setTimeout(this.remind.bind(this), 10000);
-    })
-    .catch(err => console.log(err));
+    .then(() => setTimeout(this.remind.bind(this), 3000));
+  }
+  onDestroy(id: string): void {
+    let remindedTodo = this.todos.find(todo => todo._id === id);
+    remindedTodo.reminder = '';
+    this.todoService.update(remindedTodo).then(() => {
+      let index = this.todosToRemind.indexOf(remindedTodo);
+      this.todosToRemind.splice(index, 1);
+      if (this.todosToRemind.length === 0) { this.remind(); }
+    });
   }
 }

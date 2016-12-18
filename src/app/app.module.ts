@@ -11,7 +11,7 @@ import { DialogComponent } from './dialog.component';
 
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 
-import { PushNotificationsModule } from 'angular2-notifications';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { AuthService } from './auth.service';
 import { TodoService } from './todo.service';
@@ -26,7 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
     HttpModule,
     AppRoutingModule,
     DragulaModule,
-    PushNotificationsModule
+    SimpleNotificationsModule
   ],
   declarations: [
     AppComponent,
