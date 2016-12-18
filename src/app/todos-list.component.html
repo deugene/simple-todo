@@ -3,35 +3,51 @@
 </div>
 <div class="section">
   <div class="container">
-    <form role="form">
-      <div class="form-group">
-        <div class="input-group">
-          <input type="text"
-                 class="form-control"
-                 placeholder="todo"
-                 #newTodo
-                 (keyup.enter)="create(newTodo.value); newTodo.value=''; remindDate.value = ''">
-          <span class="input-group-btn">
-            <a class="btn btn-default"
-               (click)="create(newTodo.value, remindDate.value); newTodo.value=''; remindDate.value = ''">
-              New Todo
-            </a>
-          </span>
+
+    <div *ngIf="!showDialog.visible">
+      <form role="form" (ngSubmit)="create(); todoForm.reset()"
+            #todoForm="ngForm">
+        <div class="form-group">
+
+          <div class="input-group">
+            <input type="text"
+                   class="form-control"
+                   pattern=".{3,100}"
+                   required
+                   [(ngModel)]="newTodo.todo" name="title"
+                   placeholder="title"
+                   #title="ngModel">
+            <span class="input-group-btn">
+              <a class="btn btn-default"
+                 [class.disabled]="!todoForm.valid"
+                 (click)="create(); todoForm.reset()">
+                New Todo
+              </a>
+            </span>
+          </div>
+          <div [hidden]="title.valid || title.pristine"
+               class="alert alert-danger">
+            Title is required and it can contain from 3 to 100 characters.
+          </div>
+
+          <div class="input-group text-right" id="reminder-group">
+            <input [type]="reminderInputType"
+                   class="form-control"
+                   id="reminder"
+                   [min]="minDateTime()"
+                   [(ngModel)]="newTodo.reminder" name="reminder"
+                   #reminder="ngModel">
+            <span class="input-group-btn">
+              <a class="btn btn-default"
+                 (click)="toggleReminderInputType()">
+                Set Reminder
+              </a>
+            </span>
+          </div>
         </div>
-        <div class="input-group text-right" id="reminder-group">
-          <input [type]="reminderInputType"
-                 class="form-control"
-                 id="reminder"
-                 #remindDate>
-          <span class="input-group-btn">
-            <a class="btn btn-default"
-               (click)="toggleReminderInputType()">
-              Set Reminder
-            </a>
-          </span>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
+
   </div>
   <div class="list-group container" [dragula]="'todos-list-bag'">
     <li *ngFor="let todo of todos"
@@ -43,7 +59,7 @@
       <span>{{todo.todo}}</span>
       <span class="pull-right">
         <span *ngIf="todo.reminder">
-          Reminder: {{todo.reminder}}
+          {{humanReadableDate(todo.reminder)}}
         </span>
         <span>
           <button class="btn btn-xs btn-primary"
@@ -62,60 +78,82 @@
   </div>
 </div>
 
-<app-dialog [(dialogOptions)]="showDialog" #dialog>
+<div *ngIf="showDialog">
+  <app-dialog [(dialogOptions)]="showDialog" #dialog>
 
-  <div *ngIf="showDialog.type === 'delete'">
-    <div class="text-center">
-      <h2 id="del-dialog-header">Are you shure?</h2>
-      <div class="container-fluid">
-        <div class="row row-centered">
-          <div class="col-md-4 col-centered">
-            <button class="btn-block btn btn-lg btn-default"
-                    (click)="dialog.cancel()">
-              No
-            </button>
-          </div>
-          <div class="col-md-4 col-centered">
-            <button class="btn-block btn btn-lg btn-danger"
-                    (click)="delete(); dialog.cancel()">
-              Yes
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="showDialog.type === 'edit'">
-    <div class="container-fluid">
+    <div *ngIf="showDialog.type === 'delete'">
       <div class="text-center">
-        <h2>Edit task</h2>
-      </div>
-      <div class="form-group" *ngIf="selectedTodo">
-        <label class="control-label" for="task">Todo: </label>
-        <input class="form-control"
-                id="task"
-                (keyup.enter)="update(); dialog.cancel()"
-                [(ngModel)]="selectedTodo.todo" placeholder="todo">
-
-        <label class="control-label" for="edit-reminder">Reminder: </label>
-        <input type="datetime-local"
-               class="form-control"
-               id="edit-reminder"
-               [(ngModel)]="selectedTodo.reminder">
-        <div class="text-right">
-          <button class="btn btn-default" (click)="cancel(); dialog.cancel()">
-            Cancel
-          </button>
-          <button class="btn btn-primary" (click)="update(); dialog.cancel()">
-            Save
-          </button>
+        <h2 id="del-dialog-header">Are you shure?</h2>
+        <div class="container-fluid">
+          <div class="row row-centered">
+            <div class="col-md-4 col-centered">
+              <button class="btn-block btn btn-lg btn-default"
+                      (click)="dialog.cancel()">
+                No
+              </button>
+            </div>
+            <div class="col-md-4 col-centered">
+              <button class="btn-block btn btn-lg btn-danger"
+                      (click)="delete(); dialog.cancel()">
+                Yes
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-</app-dialog>
+    <div *ngIf="showDialog.type === 'edit'">
+      <div class="container-fluid">
+        <div class="text-center">
+          <h2>Edit task</h2>
+        </div>
 
-<simple-notifications [options]="notificationsOptions" (onDestroy)="onDestroy($event.id)">
+        <form role="form" (ngSubmit)="update(); dialog.cancel()"
+              #todoForm="ngForm">
+          <div class="form-group">
+            <label class="control-label" for="task">Todo: </label>
+            <input type="text"
+                   id="task"
+                   class="form-control"
+                   pattern=".{3,100}"
+                   required
+                   placeholder="title"
+                   [(ngModel)]="selectedTodo.todo" name="title"
+                   #title="ngModel">
+
+            <div [hidden]="title.valid || title.pristine"
+                class="alert alert-danger">
+              Title is required and it can contain from 3 to 100 characters.
+            </div>
+
+            <label class="control-label" for="edit-reminder">Reminder: </label>
+            <input type="datetime-local"
+                  class="form-control"
+                  id="edit-reminder"
+                  [min]="minDateTime()"
+                  [(ngModel)]="selectedTodo.reminder" name="reminder"
+                  #reminder="ngModel">
+            <div class="text-right">
+              <button class="btn btn-default"
+                      (click)="cancel(); dialog.cancel()">
+                Cancel
+              </button>
+              <button class="btn btn-primary"
+                      type="submit"
+                      [disabled]="!todoForm.valid">
+                Save
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+  </app-dialog>
+</div>
+
+<simple-notifications [options]="notificationsOptions"
+                      (onDestroy)="onDestroy($event.id)">
 </simple-notifications>

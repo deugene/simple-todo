@@ -1,9 +1,11 @@
 export class Todo {
-  todo: string;
-  done: boolean;
-  user_id: string;
-  position: number;
-  added?: number;
-  _id?: string;
-  reminder?: string;
+  constructor(
+    public todo: string,
+    public done: boolean,
+    public user_id: string,
+    public position: number,
+    public added?: number,
+    public _id?: string,
+    public reminder?: string
+  ) { }
 }

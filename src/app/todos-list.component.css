@@ -41,3 +41,7 @@ a.btn {
 #edit-reminder {
   margin-bottom: 1em;
 }
+
+a.disabled {
+  pointer-events: none;
+}

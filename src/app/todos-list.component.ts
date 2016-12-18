@@ -17,14 +17,26 @@ import { NotificationsService } from 'angular2-notifications';
 export class TodosListComponent implements OnInit {
   private user_id: string;
   private todosToRemind: Todo[];
+  private gmt = new Date().getTimezoneOffset() * 60000;
 
   todos: Todo[];
   selectedTodo: Todo;
+  newTodo = new Todo('', false, '', undefined);
   showDialog = { visible: false, type: '' };
   reminderInputType = 'hidden';
   notificationsOptions = {
     position: [ 'top', 'right' ]
   };
+
+  minDateTime(): string {
+    return new Date(Date.now() - this.gmt).toISOString().slice(0, 16);
+  }
+  humanReadableDate(dateTime: string): string {
+    let dateWithGmt = Date.parse(dateTime) + this.gmt;
+    let date = new Date(dateWithGmt).toLocaleDateString();
+    let time = new Date(dateWithGmt).toLocaleTimeString();
+    return date + ' ' + time;
+  }
 
   constructor(
     private todoService: TodoService,
@@ -91,7 +103,7 @@ export class TodosListComponent implements OnInit {
         this.selectedTodo = null;
       });
   }
-  create(todo: string, reminder?: string): void {
+  create(): void {
     let position: number;
     if (this.todos.length > 1) {
       position = this.todos
@@ -102,18 +114,12 @@ export class TodosListComponent implements OnInit {
       position = 0;
     }
 
-    let newTodo: Todo;
-    newTodo = {
-      todo: todo,
-      done: false,
-      user_id: this.user_id,
-      position: position - 1,
-      reminder: reminder || ''
-    };
+    this.newTodo.position = position - 1;
+    this.newTodo.user_id = this.user_id;
 
     this.reminderInputType = 'hidden';
 
-    this.todoService.create(newTodo).then(() => this.getAll());
+    this.todoService.create(this.newTodo).then(() => this.getAll());
   }
   update(todo?: Todo): void {
     if (todo) {
@@ -141,8 +147,11 @@ export class TodosListComponent implements OnInit {
   remind(): void {
     new Promise(res => {
       this.todosToRemind = this.todos.filter(todo => {
-        let remindDate = Date.parse(todo.reminder);
-        return remindDate && remindDate < Date.now();
+        let remindDate: number;
+        if (todo.reminder) {
+          remindDate = Date.parse(todo.reminder) + this.gmt;
+        }
+        return remindDate && remindDate < Date.now() - this.gmt;
       });
       if (this.todosToRemind.length === 0) { return res(); }
       this.todosToRemind.forEach(todo => {
