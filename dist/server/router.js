@@ -38,3 +38,4 @@ router.put('/api/todos/:user_id', todos_1.todos.updateAll);
 router.delete('/api/todo/:id', todos_1.todos.delete);
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = router;
+//# sourceMappingURL=router.js.map
