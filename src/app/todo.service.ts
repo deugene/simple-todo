@@ -4,11 +4,11 @@ import { AuthHttp } from 'angular2-jwt';
 
 import 'rxjs/add/operator/toPromise';
 
-import { Todo } from './todo';
+import { Todo } from './shared/todo';
 
 @Injectable()
 export class TodoService {
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(
     private http: Http,

@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Todo } from './todo';
+import { Todo } from '../shared/todo';
 
-import { TodoService } from './todo.service';
-import { AuthService } from './auth.service';
+import { TodoService } from '../todo.service';
+import { AuthService } from '../auth.service';
 
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({
-  selector: 'app-todos-list',
-  templateUrl: './todos-list.component.html',
-  styleUrls: [ './todos-list.component.css' ],
+  selector: 'app-todos',
+  templateUrl: './todos.component.html',
+  styleUrls: [ './todos.component.css' ],
 })
-export class TodosListComponent implements OnInit {
+export class TodosComponent implements OnInit {
   private user_id: string;
   private todosToRemind: Todo[];
   private gmt = new Date().getTimezoneOffset() * 60000;
@@ -50,6 +50,16 @@ export class TodosListComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    this.authService.getUserProfile()
+      .then(profile => this.user_id = profile.identities[0].user_id)
+      .then(() => this.getAll()
+        .then(() => {
+          this.remind();
+        })
+      );
+  }
+
   onDrop(args: Array<HTMLElement>): void {
     let [ droppedTodoEl, from, to, nextTodoEl ] = args;
 
@@ -78,16 +88,6 @@ export class TodosListComponent implements OnInit {
       droppedTodo.position = maxPosition + 1;
       this.todoService.update(droppedTodo);
     }
-  }
-
-  ngOnInit(): void {
-    this.authService.getUserProfile()
-      .then(profile => this.user_id = profile.identities[0].user_id)
-      .then(() => this.getAll()
-        .then(() => {
-          this.remind();
-        })
-      );
   }
 
   getAll(): Promise<Todo[]> {

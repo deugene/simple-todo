@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, animate, trigger,
          transition, style } from '@angular/core';
 
-export interface dialogOptions {
+export interface DialogOptions {
   visible: boolean;
   type: string;
 }
@@ -25,8 +25,8 @@ export interface dialogOptions {
 })
 
 export class DialogComponent {
-  @Input() dialogOptions: dialogOptions;
-  @Output() dialogOptionsChange = new EventEmitter<dialogOptions>();
+  @Input() dialogOptions: DialogOptions;
+  @Output() dialogOptionsChange = new EventEmitter<DialogOptions>();
 
   cancel(): void {
     this.dialogOptions.visible = false;

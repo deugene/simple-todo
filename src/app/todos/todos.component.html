@@ -12,10 +12,10 @@
           <div class="input-group">
             <input type="text"
                    class="form-control"
+                   placeholder="title"
                    pattern=".{3,100}"
                    required
                    [(ngModel)]="newTodo.todo" name="title"
-                   placeholder="title"
                    #title="ngModel">
             <span class="input-group-btn">
               <a class="btn btn-default"
@@ -114,11 +114,11 @@
           <div class="form-group">
             <label class="control-label" for="task">Todo: </label>
             <input type="text"
-                   id="task"
                    class="form-control"
+                   id="task"
+                   placeholder="title"
                    pattern=".{3,100}"
                    required
-                   placeholder="title"
                    [(ngModel)]="selectedTodo.todo" name="title"
                    #title="ngModel">
 
