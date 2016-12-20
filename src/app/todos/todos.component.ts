@@ -202,15 +202,14 @@ export class TodosComponent implements OnInit {
 
   onSubmit(valid: boolean, method: string, dialog?: any): void {
     if (!valid) { return; }
-    console.log(valid);
     this.todo.todo = this.todoForm.value.todo;
     this.todo.reminder = this.todoForm.value.reminder;
     if (this.selectedTodo) { this.selectedTodo = this.todo; }
     this[method]();
-    this.todo = new Todo('', false, '', undefined);
     this.reminderInputType = 'hidden';
+    this.todo = new Todo('', false, '', undefined);
+    this.selectedTodo = null;
     this.buildForm();
-    console.log(dialog);
     if ( dialog ) { dialog.cancel(); };
   }
 
