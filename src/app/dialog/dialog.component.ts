@@ -23,7 +23,6 @@ export interface DialogOptions {
     ])
   ]
 })
-
 export class DialogComponent {
   @Input() dialogOptions: DialogOptions;
   @Output() dialogOptionsChange = new EventEmitter<DialogOptions>();

@@ -17,7 +17,6 @@ import { AuthService } from './auth.service';
 import { TodoService } from './todo.service';
 
 import { AppRoutingModule } from './app-routing.module';
-import { TodoFormReactiveComponent } from './todo-form-reactive/todo-form-reactive.component';
 
 @NgModule({
   imports: [
@@ -34,8 +33,7 @@ import { TodoFormReactiveComponent } from './todo-form-reactive/todo-form-reacti
     TodosComponent,
     AboutComponent,
     HomeComponent,
-    DialogComponent,
-    TodoFormReactiveComponent
+    DialogComponent
   ],
   providers: [
     TodoService,

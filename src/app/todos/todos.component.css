@@ -15,18 +15,15 @@
 
 .list-group {
   margin-top: 2em;
-}
-
-.list-group {
   padding-left: 14px;
-}
-
-a.btn {
-  width: 8em;
 }
 
 .section {
   padding-right: 4vw;
+}
+
+a.btn {
+  width: 8em;
 }
 
 #reminder {

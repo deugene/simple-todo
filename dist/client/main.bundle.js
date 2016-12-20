@@ -134,6 +134,7 @@ var AboutComponent = (function () {
     AboutComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-todo',
+            styles: [__webpack_require__(708)],
             template: __webpack_require__(679)
         }), 
         __metadata('design:paramtypes', [])
@@ -240,136 +241,21 @@ var Todo = (function () {
 
 /***/ },
 
-/***/ 334:
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(298);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_todo__ = __webpack_require__(333);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_min_date_validator__ = __webpack_require__(508);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__todo_service__ = __webpack_require__(206);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth_service__ = __webpack_require__(73);
-/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return TodoFormReactiveComponent; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-var TodoFormReactiveComponent = (function () {
-    function TodoFormReactiveComponent(todoService, authService, formBuilder) {
-        this.todoService = todoService;
-        this.authService = authService;
-        this.formBuilder = formBuilder;
-        this.gmt = new Date().getTimezoneOffset() * 60000;
-        this.todo = new __WEBPACK_IMPORTED_MODULE_2__shared_todo__["a" /* Todo */]('', false, '', undefined);
-        this.reminderInputType = 'hidden';
-        this.formErrors = {
-            'todo': '',
-            'reminder': ''
-        };
-        this.validationMessages = {
-            'todo': {
-                'required': 'Title is required.',
-                'maxLength': 'Title cannot be more than 100 characters long'
-            },
-            'reminder': {
-                'minDate': 'It must be future date.'
-            }
-        };
-    }
-    TodoFormReactiveComponent.prototype.minDateTime = function () {
-        return new Date(Date.now() - this.gmt).toISOString().slice(0, 16);
-    };
-    TodoFormReactiveComponent.prototype.toggleReminderInputType = function () {
-        this.reminderInputType = this.reminderInputType === 'hidden'
-            ? 'datetime-local'
-            : 'hidden';
-    };
-    TodoFormReactiveComponent.prototype.onSubmit = function () {
-        this.todo.todo = this.todoForm.value.todo;
-        this.todo.todo = this.todoForm.value.reminder;
-    };
-    TodoFormReactiveComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.buildForm();
-        this.authService.getUserProfile()
-            .then(function (profile) { return _this.user_id = profile.identities[0].user_id; })
-            .catch(function (err) { return console.error(err); });
-    };
-    TodoFormReactiveComponent.prototype.buildForm = function () {
-        var _this = this;
-        this.todoForm = this.formBuilder.group({
-            'todo': [
-                this.todo.todo,
-                [
-                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* Validators */].required,
-                    __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* Validators */].maxLength(100)
-                ]
-            ],
-            'reminder': [this.todo.reminder, [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__shared_min_date_validator__["a" /* minDateValidator */])()]]
-        });
-        this.todoForm.valueChanges.subscribe(function (data) { return _this.onValueChanged(data); });
-        this.onValueChanged();
-    };
-    TodoFormReactiveComponent.prototype.onValueChanged = function (data) {
-        if (!this.todoForm) {
-            return;
-        }
-        var form = this.todoForm;
-        for (var field in this.formErrors) {
-            if (this.formErrors.hasOwnProperty(field)) {
-                this.formErrors[field] = '';
-                var control = form.get(field);
-                if (control && control.dirty && !control.valid) {
-                    var messages = this.validationMessages[field];
-                    for (var key in control.errors) {
-                        if (control.errors.hasOwnProperty(key)) {
-                            this.formErrors[field] += messages[key] + ' ';
-                        }
-                    }
-                }
-            }
-        }
-    };
-    TodoFormReactiveComponent = __decorate([
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'app-todo-form-reactive',
-            template: __webpack_require__(683),
-            styles: [__webpack_require__(677)]
-        }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__todo_service__["a" /* TodoService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__todo_service__["a" /* TodoService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_5__auth_service__["a" /* AuthService */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */]) === 'function' && _c) || Object])
-    ], TodoFormReactiveComponent);
-    return TodoFormReactiveComponent;
-    var _a, _b, _c;
-}());
-//# sourceMappingURL=/home/eugenes/webdev/simple-todo/src/todo-form-reactive.component.js.map
-
-/***/ },
-
 /***/ 335:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(135);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_todo__ = __webpack_require__(333);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__todo_service__ = __webpack_require__(206);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_service__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_dragula_ng2_dragula__ = __webpack_require__(375);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_dragula_ng2_dragula___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_dragula_ng2_dragula__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_notifications__ = __webpack_require__(336);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_angular2_notifications__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(298);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_todo__ = __webpack_require__(333);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__todo_service__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth_service__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_dragula_ng2_dragula__ = __webpack_require__(375);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_dragula_ng2_dragula___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_dragula_ng2_dragula__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angular2_notifications__ = __webpack_require__(336);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angular2_notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_angular2_notifications__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_min_date_validator__ = __webpack_require__(508);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return TodosComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -387,36 +273,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var TodosComponent = (function () {
-    function TodosComponent(todoService, router, authService, dragulaService, notificationsService) {
+    function TodosComponent(todoService, router, authService, dragulaService, formBuilder, notificationsService) {
         var _this = this;
         this.todoService = todoService;
         this.router = router;
         this.authService = authService;
         this.dragulaService = dragulaService;
+        this.formBuilder = formBuilder;
         this.notificationsService = notificationsService;
         this.gmt = new Date().getTimezoneOffset() * 60000;
-        this.newTodo = new __WEBPACK_IMPORTED_MODULE_2__shared_todo__["a" /* Todo */]('', false, '', undefined);
         this.showDialog = { visible: false, type: '' };
         this.reminderInputType = 'hidden';
         this.notificationsOptions = {
             position: ['top', 'right']
         };
+        // forms variables
+        this.todo = new __WEBPACK_IMPORTED_MODULE_3__shared_todo__["a" /* Todo */]('', false, '', undefined);
+        this.formErrors = {
+            'todo': '',
+            'reminder': ''
+        };
+        this.validationMessages = {
+            'todo': {
+                'required': 'Title is required.',
+                'maxlength': 'Title cannot be more than 150 characters long'
+            },
+            'reminder': {
+                'minDate': 'It must be future date.'
+            }
+        };
         dragulaService.drop.subscribe(function (value) {
             _this.onDrop(value.slice(1));
         });
     }
-    TodosComponent.prototype.minDateTime = function () {
-        return new Date(Date.now() - this.gmt).toISOString().slice(0, 16);
-    };
-    TodosComponent.prototype.humanReadableDate = function (dateTime) {
-        var dateWithGmt = Date.parse(dateTime) + this.gmt;
-        var date = new Date(dateWithGmt).toLocaleDateString();
-        var time = new Date(dateWithGmt).toLocaleTimeString();
-        return date + ' ' + time;
-    };
     TodosComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.buildForm();
         this.authService.getUserProfile()
             .then(function (profile) { return _this.user_id = profile.identities[0].user_id; })
             .then(function () { return _this.getAll()
@@ -424,6 +319,7 @@ var TodosComponent = (function () {
             _this.remind();
         }); });
     };
+    // drag and drop functional
     TodosComponent.prototype.onDrop = function (args) {
         var droppedTodoEl = args[0], from = args[1], to = args[2], nextTodoEl = args[3];
         var droppedTodo = this.todos
@@ -451,6 +347,7 @@ var TodosComponent = (function () {
             this.todoService.update(droppedTodo);
         }
     };
+    // CRUD functional
     TodosComponent.prototype.getAll = function () {
         var _this = this;
         return this.todoService
@@ -479,10 +376,9 @@ var TodosComponent = (function () {
         else {
             position = 0;
         }
-        this.newTodo.position = position - 1;
-        this.newTodo.user_id = this.user_id;
-        this.reminderInputType = 'hidden';
-        this.todoService.create(this.newTodo).then(function () { return _this.getAll(); });
+        this.todo.position = position - 1;
+        this.todo.user_id = this.user_id;
+        this.todoService.create(this.todo).then(function () { return _this.getAll(); });
     };
     TodosComponent.prototype.update = function (todo) {
         var _this = this;
@@ -492,28 +388,25 @@ var TodosComponent = (function () {
         }
         this.todoService.update(this.selectedTodo).then(function () { return _this.getAll(); });
     };
-    TodosComponent.prototype.cancel = function () {
-        this.getAll();
-    };
+    // show dialogs
     TodosComponent.prototype.showModal = function (todo, type) {
         this.selectedTodo = todo;
         this.showDialog.visible = !this.showDialog.visible;
         this.showDialog.type = type;
+        if (type === 'edit') {
+            this.buildForm();
+        }
     };
-    TodosComponent.prototype.toggleReminderInputType = function () {
-        this.reminderInputType = this.reminderInputType === 'hidden'
-            ? 'datetime-local'
-            : 'hidden';
-    };
+    // reminders functional
     TodosComponent.prototype.remind = function () {
         var _this = this;
         new Promise(function (res) {
             _this.todosToRemind = _this.todos.filter(function (todo) {
                 var remindDate;
                 if (todo.reminder) {
-                    remindDate = Date.parse(todo.reminder) + _this.gmt;
+                    remindDate = new Date(Date.parse(todo.reminder) + _this.gmt);
                 }
-                return remindDate && remindDate < Date.now() - _this.gmt;
+                return remindDate && remindDate < new Date(Date.now());
             });
             if (_this.todosToRemind.length === 0) {
                 return res();
@@ -536,16 +429,94 @@ var TodosComponent = (function () {
             }
         });
     };
+    TodosComponent.prototype.humanReadableDate = function (dateTime) {
+        var dateWithGmt = Date.parse(dateTime) + this.gmt;
+        var date = new Date(dateWithGmt).toLocaleDateString();
+        var time = new Date(dateWithGmt).toLocaleTimeString();
+        return date + ' ' + time;
+    };
+    // forms functional
+    TodosComponent.prototype.toggleReminderInputType = function () {
+        this.reminderInputType = this.reminderInputType === 'hidden'
+            ? 'datetime-local'
+            : 'hidden';
+    };
+    TodosComponent.prototype.onSubmit = function (valid, method, dialog) {
+        if (!valid) {
+            return;
+        }
+        console.log(valid);
+        this.todo.todo = this.todoForm.value.todo;
+        this.todo.reminder = this.todoForm.value.reminder;
+        if (this.selectedTodo) {
+            this.selectedTodo = this.todo;
+        }
+        this[method]();
+        this.todo = new __WEBPACK_IMPORTED_MODULE_3__shared_todo__["a" /* Todo */]('', false, '', undefined);
+        this.reminderInputType = 'hidden';
+        this.buildForm();
+        console.log(dialog);
+        if (dialog) {
+            dialog.cancel();
+        }
+        ;
+    };
+    TodosComponent.prototype.buildForm = function () {
+        var _this = this;
+        if (this.selectedTodo) {
+            this.todo = this.selectedTodo;
+        }
+        this.todoForm = this.formBuilder.group({
+            'todo': [
+                this.todo.todo,
+                [
+                    __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* Validators */].required,
+                    __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* Validators */].maxLength(150)
+                ]
+            ],
+            'reminder': [this.todo.reminder, [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__shared_min_date_validator__["a" /* minDateValidator */])()]]
+        });
+        this.todoForm.valueChanges.subscribe(function (data) { return _this.onValueChanged(data); });
+        this.onValueChanged();
+    };
+    TodosComponent.prototype.onValueChanged = function (data) {
+        if (!this.todoForm) {
+            return;
+        }
+        var form = this.todoForm;
+        for (var field in this.formErrors) {
+            if (this.formErrors.hasOwnProperty(field)) {
+                this.formErrors[field] = '';
+                var control = form.get(field);
+                if (control && control.dirty && !control.valid) {
+                    var messages = this.validationMessages[field];
+                    for (var key in control.errors) {
+                        if (control.errors.hasOwnProperty(key)) {
+                            this.formErrors[field] += messages[key] + ' ';
+                        }
+                    }
+                }
+            }
+        }
+    };
+    TodosComponent.prototype.cancel = function (valid, dialog) {
+        if (!valid) {
+            this.todo = new __WEBPACK_IMPORTED_MODULE_3__shared_todo__["a" /* Todo */]('', false, '', undefined);
+            this.selectedTodo = null;
+            this.buildForm();
+        }
+        dialog.cancel();
+    };
     TodosComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-todos',
             template: __webpack_require__(684),
             styles: [__webpack_require__(678)],
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__todo_service__["a" /* TodoService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__todo_service__["a" /* TodoService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__auth_service__["a" /* AuthService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5_ng2_dragula_ng2_dragula__["DragulaService"] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_5_ng2_dragula_ng2_dragula__["DragulaService"]) === 'function' && _d) || Object, (typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6_angular2_notifications__["NotificationsService"] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_6_angular2_notifications__["NotificationsService"]) === 'function' && _e) || Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__todo_service__["a" /* TodoService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__todo_service__["a" /* TodoService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_5__auth_service__["a" /* AuthService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6_ng2_dragula_ng2_dragula__["DragulaService"] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_6_ng2_dragula_ng2_dragula__["DragulaService"]) === 'function' && _d) || Object, (typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormBuilder */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormBuilder */]) === 'function' && _e) || Object, (typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_7_angular2_notifications__["NotificationsService"] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_7_angular2_notifications__["NotificationsService"]) === 'function' && _f) || Object])
     ], TodosComponent);
     return TodosComponent;
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d, _e, _f;
 }());
 //# sourceMappingURL=/home/eugenes/webdev/simple-todo/src/todos.component.js.map
 
@@ -600,7 +571,6 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__about_about_component__ = __webpack_require__(330);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__todos_todos_component__ = __webpack_require__(335);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__home_home_component__ = __webpack_require__(332);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__todo_form_reactive_todo_form_reactive_component__ = __webpack_require__(334);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -618,13 +588,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var routes = [
     { path: 'todos', component: __WEBPACK_IMPORTED_MODULE_5__todos_todos_component__["a" /* TodosComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_2__auth_guard_service__["a" /* AuthGuard */]] },
     { path: 'home', component: __WEBPACK_IMPORTED_MODULE_6__home_home_component__["a" /* HomeComponent */] },
     { path: '', redirectTo: '/todos', pathMatch: 'full' },
-    { path: 'about', component: __WEBPACK_IMPORTED_MODULE_4__about_about_component__["a" /* AboutComponent */] },
-    { path: 'form', component: __WEBPACK_IMPORTED_MODULE_7__todo_form_reactive_todo_form_reactive_component__["a" /* TodoFormReactiveComponent */] }
+    { path: 'about', component: __WEBPACK_IMPORTED_MODULE_4__about_about_component__["a" /* AboutComponent */] }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
@@ -635,7 +603,7 @@ var AppRoutingModule = (function () {
             exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_3_angular2_jwt__["AUTH_PROVIDERS"],
-                __WEBPACK_IMPORTED_MODULE_2__auth_guard_service__["a" /* AuthGuard */],
+                __WEBPACK_IMPORTED_MODULE_2__auth_guard_service__["a" /* AuthGuard */]
             ]
         }), 
         __metadata('design:paramtypes', [])
@@ -666,7 +634,6 @@ var AppRoutingModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__auth_service__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__todo_service__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__app_routing_module__ = __webpack_require__(503);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__todo_form_reactive_todo_form_reactive_component__ = __webpack_require__(334);
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -677,7 +644,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -711,8 +677,7 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_5__todos_todos_component__["a" /* TodosComponent */],
                 __WEBPACK_IMPORTED_MODULE_6__about_about_component__["a" /* AboutComponent */],
                 __WEBPACK_IMPORTED_MODULE_7__home_home_component__["a" /* HomeComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__dialog_dialog_component__["a" /* DialogComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__todo_form_reactive_todo_form_reactive_component__["a" /* TodoFormReactiveComponent */]
+                __WEBPACK_IMPORTED_MODULE_8__dialog_dialog_component__["a" /* DialogComponent */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_12__todo_service__["a" /* TodoService */],
@@ -852,7 +817,7 @@ function minDateValidator() {
     return function (control) {
         var gmt = new Date().getTimezoneOffset() * 60000;
         var date = new Date(Date.parse(control.value) + gmt);
-        var dateNow = new Date(Date.now() - gmt);
+        var dateNow = new Date(Date.now());
         var no = dateNow > date;
         return no ? { 'minDate': { dateNow: dateNow } } : null;
     };
@@ -954,17 +919,10 @@ module.exports = ".btn {\n  font-size: 2.5em;\n  margin: 1em 0 3em;\n  padding: 
 
 /***/ },
 
-/***/ 677:
-/***/ function(module, exports) {
-
-module.exports = ""
-
-/***/ },
-
 /***/ 678:
 /***/ function(module, exports) {
 
-module.exports = "#del-dialog-header {\n  margin-bottom: 30px;\n}\n\n.row-centered {\n  text-align: center;\n}\n\n.col-centered {\n  display: inline-block;\n  float: none;\n  text-align: left;\n  margin-right: -4px;\n}\n\n.list-group {\n  margin-top: 2em;\n}\n\n.list-group {\n  padding-left: 14px;\n}\n\na.btn {\n  width: 8em;\n}\n\n.section {\n  padding-right: 4vw;\n}\n\n#reminder {\n  max-width: 14em;\n  float: right;\n}\n\n#reminder-group {\n  margin-top: 1em;\n}\n\n#edit-reminder {\n  margin-bottom: 1em;\n}\n\na.disabled {\n  pointer-events: none;\n}\n"
+module.exports = "#del-dialog-header {\n  margin-bottom: 30px;\n}\n\n.row-centered {\n  text-align: center;\n}\n\n.col-centered {\n  display: inline-block;\n  float: none;\n  text-align: left;\n  margin-right: -4px;\n}\n\n.list-group {\n  margin-top: 2em;\n  padding-left: 14px;\n}\n\n.section {\n  padding-right: 4vw;\n}\n\na.btn {\n  width: 8em;\n}\n\n#reminder {\n  max-width: 14em;\n  float: right;\n}\n\n#reminder-group {\n  margin-top: 1em;\n}\n\n#edit-reminder {\n  margin-bottom: 1em;\n}\n\na.disabled {\n  pointer-events: none;\n}\n"
 
 /***/ },
 
@@ -996,17 +954,10 @@ module.exports = "<div class=\"container\">\n   <div class=\"row\">\n     <div c
 
 /***/ },
 
-/***/ 683:
-/***/ function(module, exports) {
-
-module.exports = "<form role=\"form\" (ngSubmit)=\"onSubmit()\">\n  <div class=\"form-group\">\n\n    <div class=\"input-group\" [formGroup]=\"todoForm\">\n      <input type=\"text\"\n              class=\"form-control\"\n              placeholder=\"title\"\n              formControlName=\"todo\"\n              required>\n      <span class=\"input-group-btn\">\n        <a class=\"btn btn-default\"\n            [class.disabled]=\"!todoForm.valid\"\n            (click)=\"onSubmit();\">\n          New Todo\n        </a>\n      </span>\n    </div>\n    <div *ngIf=\"formErrors.todo\" class=\"alert alert-danger\">\n      {{ formErrors.todo }}\n    </div>\n\n    <div class=\"input-group text-right\" id=\"reminder-group\" [formGroup]=\"todoForm\">\n      <input [type]=\"reminderInputType\"\n              class=\"form-control\"\n              id=\"reminder\"\n              [min]=\"minDateTime()\"\n              formControlName=\"reminder\">\n      <span class=\"input-group-btn\">\n        <a class=\"btn btn-default\"\n            (click)=\"toggleReminderInputType()\">\n          Set Reminder\n        </a>\n      </span>\n    </div>\n    <div *ngIf=\"formErrors.reminder\" class=\"alert alert-danger\">\n      {{ formErrors.reminder }}\n    </div>\n  </div>\n</form>\n"
-
-/***/ },
-
 /***/ 684:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <h3>My Todos</h3>\n</div>\n<div class=\"section\">\n  <div class=\"container\">\n\n    <div *ngIf=\"!showDialog.visible\">\n      <form role=\"form\" (ngSubmit)=\"create(); todoForm.reset()\"\n            #todoForm=\"ngForm\">\n        <div class=\"form-group\">\n\n          <div class=\"input-group\">\n            <input type=\"text\"\n                   class=\"form-control\"\n                   placeholder=\"title\"\n                   pattern=\".{3,100}\"\n                   required\n                   [(ngModel)]=\"newTodo.todo\" name=\"title\"\n                   #title=\"ngModel\">\n            <span class=\"input-group-btn\">\n              <a class=\"btn btn-default\"\n                 [class.disabled]=\"!todoForm.valid\"\n                 (click)=\"create(); todoForm.reset()\">\n                New Todo\n              </a>\n            </span>\n          </div>\n          <div [hidden]=\"title.valid || title.pristine\"\n               class=\"alert alert-danger\">\n            Title is required and it can contain from 3 to 100 characters.\n          </div>\n\n          <div class=\"input-group text-right\" id=\"reminder-group\">\n            <input [type]=\"reminderInputType\"\n                   class=\"form-control\"\n                   id=\"reminder\"\n                   [min]=\"minDateTime()\"\n                   [(ngModel)]=\"newTodo.reminder\" name=\"reminder\"\n                   #reminder=\"ngModel\">\n            <span class=\"input-group-btn\">\n              <a class=\"btn btn-default\"\n                 (click)=\"toggleReminderInputType()\">\n                Set Reminder\n              </a>\n            </span>\n          </div>\n        </div>\n      </form>\n    </div>\n\n  </div>\n  <div class=\"list-group container\" [dragula]=\"'todos-list-bag'\">\n    <li *ngFor=\"let todo of todos\"\n        class=\"list-group-item clearfix\"\n        [id]=\"todo._id\"\n        (click)=\"update(todo); $event.stopPropagation()\"\n        role=\"button\">\n      <input type=\"checkbox\" [checked]=\"todo.done\">\n      <span>{{todo.todo}}</span>\n      <span class=\"pull-right\">\n        <span *ngIf=\"todo.reminder\">\n          {{humanReadableDate(todo.reminder)}}\n        </span>\n        <span>\n          <button class=\"btn btn-xs btn-primary\"\n                  (click)=\"showModal(todo, 'edit'); $event.stopPropagation()\">\n            Edit\n          </button>\n        </span>\n        <span>\n          <button class=\"btn btn-xs btn-danger\"\n                  (click)=\"showModal(todo, 'delete'); $event.stopPropagation()\">\n            Delete\n          </button>\n        </span>\n      </span>\n    </li>\n  </div>\n</div>\n\n<div *ngIf=\"showDialog\">\n  <app-dialog [(dialogOptions)]=\"showDialog\" #dialog>\n\n    <div *ngIf=\"showDialog.type === 'delete'\">\n      <div class=\"text-center\">\n        <h2 id=\"del-dialog-header\">Are you shure?</h2>\n        <div class=\"container-fluid\">\n          <div class=\"row row-centered\">\n            <div class=\"col-md-4 col-centered\">\n              <button class=\"btn-block btn btn-lg btn-default\"\n                      (click)=\"dialog.cancel()\">\n                No\n              </button>\n            </div>\n            <div class=\"col-md-4 col-centered\">\n              <button class=\"btn-block btn btn-lg btn-danger\"\n                      (click)=\"delete(); dialog.cancel()\">\n                Yes\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div *ngIf=\"showDialog.type === 'edit'\">\n      <div class=\"container-fluid\">\n        <div class=\"text-center\">\n          <h2>Edit task</h2>\n        </div>\n\n        <form role=\"form\" (ngSubmit)=\"update(); dialog.cancel()\"\n              #todoForm=\"ngForm\">\n          <div class=\"form-group\">\n            <label class=\"control-label\" for=\"task\">Todo: </label>\n            <input type=\"text\"\n                   class=\"form-control\"\n                   id=\"task\"\n                   placeholder=\"title\"\n                   pattern=\".{3,100}\"\n                   required\n                   [(ngModel)]=\"selectedTodo.todo\" name=\"title\"\n                   #title=\"ngModel\">\n\n            <div [hidden]=\"title.valid || title.pristine\"\n                class=\"alert alert-danger\">\n              Title is required and it can contain from 3 to 100 characters.\n            </div>\n\n            <label class=\"control-label\" for=\"edit-reminder\">Reminder: </label>\n            <input type=\"datetime-local\"\n                  class=\"form-control\"\n                  id=\"edit-reminder\"\n                  [min]=\"minDateTime()\"\n                  [(ngModel)]=\"selectedTodo.reminder\" name=\"reminder\"\n                  #reminder=\"ngModel\">\n            <div class=\"text-right\">\n              <button class=\"btn btn-default\"\n                      (click)=\"cancel(); dialog.cancel()\">\n                Cancel\n              </button>\n              <button class=\"btn btn-primary\"\n                      type=\"submit\"\n                      [disabled]=\"!todoForm.valid\">\n                Save\n              </button>\n            </div>\n          </div>\n        </form>\n\n      </div>\n    </div>\n\n  </app-dialog>\n</div>\n\n<simple-notifications [options]=\"notificationsOptions\"\n                      (onDestroy)=\"onDestroy($event.id)\">\n</simple-notifications>\n"
+module.exports = "<div class=\"container\">\n  <h3>My Todos</h3>\n</div>\n<div class=\"section\">\n  <div class=\"container\">\n\n    <div *ngIf=\"!showDialog.visible\">\n\n    <form role=\"form\" (ngSubmit)=\"onSubmit(todoForm.valid, 'create')\"\n          [formGroup]=\"todoForm\">\n      <div class=\"form-group\">\n\n        <div class=\"input-group\">\n          <input type=\"text\"\n                 class=\"form-control\"\n                 placeholder=\"title\"\n                 formControlName=\"todo\"\n                 required>\n          <span class=\"input-group-btn\">\n            <a class=\"btn btn-default\"\n               [class.disabled]=\"!todoForm.valid\"\n               (click)=\"onSubmit(todoForm.valid, 'create')\">\n              New Todo\n            </a>\n          </span>\n        </div>\n\n        <div *ngIf=\"formErrors.todo\" class=\"alert alert-danger\">\n          {{ formErrors.todo }}\n        </div>\n\n        <div class=\"input-group text-right\" id=\"reminder-group\">\n          <input [type]=\"reminderInputType\"\n                 class=\"form-control\"\n                 id=\"reminder\"\n                 formControlName=\"reminder\">\n          <span class=\"input-group-btn\">\n            <a class=\"btn btn-default\"\n               (click)=\"toggleReminderInputType()\">\n              Set Reminder\n            </a>\n          </span>\n        </div>\n\n        <div *ngIf=\"formErrors.reminder\" class=\"alert alert-danger\">\n          {{ formErrors.reminder }}\n        </div>\n\n      </div>\n    </form>\n\n    </div>\n\n  </div>\n  <div class=\"list-group container\" [dragula]=\"'todos-list-bag'\">\n    <li *ngFor=\"let todo of todos\"\n        class=\"list-group-item clearfix\"\n        [id]=\"todo._id\"\n        (click)=\"update(todo); $event.stopPropagation()\"\n        role=\"button\">\n      <input type=\"checkbox\" [checked]=\"todo.done\">\n      <span>{{todo.todo}}</span>\n      <span class=\"pull-right\">\n        <span *ngIf=\"todo.reminder\">\n          {{humanReadableDate(todo.reminder)}}\n        </span>\n        <span>\n          <button class=\"btn btn-xs btn-primary\"\n                  (click)=\"showModal(todo, 'edit'); $event.stopPropagation()\">\n            Edit\n          </button>\n        </span>\n        <span>\n          <button class=\"btn btn-xs btn-danger\"\n                  (click)=\"showModal(todo, 'delete'); $event.stopPropagation()\">\n            Delete\n          </button>\n        </span>\n      </span>\n    </li>\n  </div>\n</div>\n\n<div *ngIf=\"showDialog\">\n  <app-dialog [(dialogOptions)]=\"showDialog\" #dialog>\n\n    <div *ngIf=\"showDialog.type === 'delete'\">\n      <div class=\"text-center\">\n        <h2 id=\"del-dialog-header\">Are you shure?</h2>\n        <div class=\"container-fluid\">\n          <div class=\"row row-centered\">\n            <div class=\"col-md-4 col-centered\">\n              <button class=\"btn-block btn btn-lg btn-default\"\n                      (click)=\"dialog.cancel()\">\n                No\n              </button>\n            </div>\n            <div class=\"col-md-4 col-centered\">\n              <button class=\"btn-block btn btn-lg btn-danger\"\n                      (click)=\"delete(); dialog.cancel()\">\n                Yes\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div *ngIf=\"showDialog.type === 'edit'\">\n      <div class=\"container-fluid\">\n        <div class=\"text-center\">\n          <h2>Edit task</h2>\n        </div>\n\n        <form role=\"form\"\n              (ngSubmit)=\"onSubmit(todoForm.valid, 'update', dialog)\"\n              [formGroup]=\"todoForm\">\n          <div class=\"form-group\">\n\n            <label class=\"control-label\" for=\"task\">Todo: </label>\n            <input type=\"text\"\n                   class=\"form-control\"\n                   id=\"task\"\n                   placeholder=\"title\"\n                   formControlName=\"todo\"\n                   required>\n\n            <div *ngIf=\"formErrors.todo\" class=\"alert alert-danger\">\n              {{ formErrors.todo }}\n            </div>\n\n            <label class=\"control-label\" for=\"edit-reminder\">Reminder: </label>\n            <input type=\"datetime-local\"\n                   class=\"form-control\"\n                   id=\"edit-reminder\"\n                   formControlName=\"reminder\">\n\n            <div *ngIf=\"formErrors.reminder\" class=\"alert alert-danger\">\n              {{ formErrors.reminder }}\n            </div>\n\n            <div class=\"text-right\">\n              <button class=\"btn btn-default\"\n                      (click)=\"cancel(todoForm.valid, dialog)\">\n                Cancel\n              </button>\n              <button class=\"btn btn-primary\"\n                      (click)=\"onSubmit(todoForm.valid, 'update', dialog)\"\n                      [disabled]=\"!todoForm.valid\">\n                Save\n              </button>\n            </div>\n\n          </div>\n        </form>\n\n      </div>\n    </div>\n\n  </app-dialog>\n</div>\n\n<simple-notifications [options]=\"notificationsOptions\"\n                      (onDestroy)=\"onDestroy($event.id)\">\n</simple-notifications>\n"
 
 /***/ },
 
@@ -1015,6 +966,13 @@ module.exports = "<div class=\"container\">\n  <h3>My Todos</h3>\n</div>\n<div c
 
 module.exports = __webpack_require__(392);
 
+
+/***/ },
+
+/***/ 708:
+/***/ function(module, exports) {
+
+module.exports = ""
 
 /***/ },
 

@@ -5,47 +5,50 @@
   <div class="container">
 
     <div *ngIf="!showDialog.visible">
-      <form role="form" (ngSubmit)="create(); todoForm.reset()"
-            #todoForm="ngForm">
-        <div class="form-group">
 
-          <div class="input-group">
-            <input type="text"
-                   class="form-control"
-                   placeholder="title"
-                   pattern=".{3,100}"
-                   required
-                   [(ngModel)]="newTodo.todo" name="title"
-                   #title="ngModel">
-            <span class="input-group-btn">
-              <a class="btn btn-default"
-                 [class.disabled]="!todoForm.valid"
-                 (click)="create(); todoForm.reset()">
-                New Todo
-              </a>
-            </span>
-          </div>
-          <div [hidden]="title.valid || title.pristine"
-               class="alert alert-danger">
-            Title is required and it can contain from 3 to 100 characters.
-          </div>
+    <form role="form" (ngSubmit)="onSubmit(todoForm.valid, 'create')"
+          [formGroup]="todoForm">
+      <div class="form-group">
 
-          <div class="input-group text-right" id="reminder-group">
-            <input [type]="reminderInputType"
-                   class="form-control"
-                   id="reminder"
-                   [min]="minDateTime()"
-                   [(ngModel)]="newTodo.reminder" name="reminder"
-                   #reminder="ngModel">
-            <span class="input-group-btn">
-              <a class="btn btn-default"
-                 (click)="toggleReminderInputType()">
-                Set Reminder
-              </a>
-            </span>
-          </div>
+        <div class="input-group">
+          <input type="text"
+                 class="form-control"
+                 placeholder="title"
+                 formControlName="todo"
+                 required>
+          <span class="input-group-btn">
+            <a class="btn btn-default"
+               [class.disabled]="!todoForm.valid"
+               (click)="onSubmit(todoForm.valid, 'create')">
+              New Todo
+            </a>
+          </span>
         </div>
-      </form>
+
+        <div *ngIf="formErrors.todo" class="alert alert-danger">
+          {{ formErrors.todo }}
+        </div>
+
+        <div class="input-group text-right" id="reminder-group">
+          <input [type]="reminderInputType"
+                 class="form-control"
+                 id="reminder"
+                 formControlName="reminder">
+          <span class="input-group-btn">
+            <a class="btn btn-default"
+               (click)="toggleReminderInputType()">
+              Set Reminder
+            </a>
+          </span>
+        </div>
+
+        <div *ngIf="formErrors.reminder" class="alert alert-danger">
+          {{ formErrors.reminder }}
+        </div>
+
+      </div>
+    </form>
+
     </div>
 
   </div>
@@ -109,42 +112,45 @@
           <h2>Edit task</h2>
         </div>
 
-        <form role="form" (ngSubmit)="update(); dialog.cancel()"
-              #todoForm="ngForm">
+        <form role="form"
+              (ngSubmit)="onSubmit(todoForm.valid, 'update', dialog)"
+              [formGroup]="todoForm">
           <div class="form-group">
+
             <label class="control-label" for="task">Todo: </label>
             <input type="text"
                    class="form-control"
                    id="task"
                    placeholder="title"
-                   pattern=".{3,100}"
-                   required
-                   [(ngModel)]="selectedTodo.todo" name="title"
-                   #title="ngModel">
+                   formControlName="todo"
+                   required>
 
-            <div [hidden]="title.valid || title.pristine"
-                class="alert alert-danger">
-              Title is required and it can contain from 3 to 100 characters.
+            <div *ngIf="formErrors.todo" class="alert alert-danger">
+              {{ formErrors.todo }}
             </div>
 
             <label class="control-label" for="edit-reminder">Reminder: </label>
             <input type="datetime-local"
-                  class="form-control"
-                  id="edit-reminder"
-                  [min]="minDateTime()"
-                  [(ngModel)]="selectedTodo.reminder" name="reminder"
-                  #reminder="ngModel">
+                   class="form-control"
+                   id="edit-reminder"
+                   formControlName="reminder">
+
+            <div *ngIf="formErrors.reminder" class="alert alert-danger">
+              {{ formErrors.reminder }}
+            </div>
+
             <div class="text-right">
               <button class="btn btn-default"
-                      (click)="cancel(); dialog.cancel()">
+                      (click)="cancel(todoForm.valid, dialog)">
                 Cancel
               </button>
               <button class="btn btn-primary"
-                      type="submit"
+                      (click)="onSubmit(todoForm.valid, 'update', dialog)"
                       [disabled]="!todoForm.valid">
                 Save
               </button>
             </div>
+
           </div>
         </form>
 

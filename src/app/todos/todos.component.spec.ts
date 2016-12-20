@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { TodoFormReactiveComponent } from './todo-form-reactive.component';
+import { TodosComponent } from './todos.component';
 
-describe('TodoFormReactiveComponent', () => {
-  let component: TodoFormReactiveComponent;
-  let fixture: ComponentFixture<TodoFormReactiveComponent>;
+describe('TodosComponent', () => {
+  let component: TodosComponent;
+  let fixture: ComponentFixture<TodosComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TodoFormReactiveComponent ]
+      declarations: [ TodosComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TodoFormReactiveComponent);
+    fixture = TestBed.createComponent(TodosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

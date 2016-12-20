@@ -37,9 +37,7 @@ export class TodoService {
   }
   create(todo: Todo): Promise<Todo> {
       return this.authHttp.post(
-        'api/todo/',
-        JSON.stringify(todo),
-        { headers: this.headers }
+        'api/todo/', JSON.stringify(todo), { headers: this.headers }
       ).toPromise()
       .then(res => {
         let result = res.json();
