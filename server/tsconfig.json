@@ -5,6 +5,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./.tsctmp/server"
+    "outDir": "./.tsctmp/server",
+    "allowSyntheticDefaultImports": true
   }
 }

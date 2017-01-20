@@ -4,12 +4,13 @@ const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 // import routes
 const router_1 = require('./router');
 const app = express();
-mongoose.connect(app.get('env') === 'development'
-    ? 'mongodb://localhost/ng2expressTodo'
-    : process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,11 +25,10 @@ app.use((req, res) => {
 // error handler
 app.use((err, req, res, next) => {
     // only providing error details in development
-    err = req.app.get('env') === 'development'
-        ? err
-        : { message: 'Internal Server Error' };
-    // send error
-    res.json({ err: err.message });
+    err = process.env.NODE_ENV === 'development'
+        ? { message: err.message, stack: err.stack }
+        : { message: err.message };
+    // send error json
+    res.json({ err: err });
 });
 module.exports = app;
-//# sourceMappingURL=app.js.map

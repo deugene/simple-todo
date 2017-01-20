@@ -1,53 +1,54 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Router } from '@angular/router';
 
-import 'rxjs/add/operator/toPromise';
-
-declare let Auth0Lock: any;
+let Auth0Lock = require('auth0-lock').default;
 
 @Injectable()
 
 export class AuthService {
-  private idToken: any;
+  private idToken: string;
+  private accessToken: string;
   private lock: any;
 
   constructor(
-    private router: Router,
-    private http: Http
+    private router: Router
   ) {
-    this.auth0Config();
+    this.lock = new Auth0Lock(
+      'RZjzFcs4G6FKnJGLgQD2OBz3VHiDn1DB',
+      'deugene.eu.auth0.com'
+    );
+    this.lock.on('authenticated', (authResult: any): void => {
+      this.idToken = authResult.idToken;
+      this.accessToken = authResult.accessToken;
+      localStorage.setItem('id_token', authResult.idToken);
+      localStorage.setItem('access_token', authResult.accessToken);
+      this.getUserProfile()
+        .then(() => this.router.navigate([ 'todos' ]));
+    });
+
+    this.lock.on('unrecoverable_error', (err: any): void => {
+      if (err) { alert(err.message); }
+    });
   }
 
-  auth0Config(): void {
-    this.http.get('api/config')
-      .toPromise()
-      .then(res => {
-        let result = res.json();
-        if (result.err) { throw new Error(result.err); }
-        this.lock = new Auth0Lock(result.clientId, result.domain);
-        this.lock.on('authenticated', (authResult: any) => {
-          this.idToken = authResult.idToken;
-          localStorage.setItem('id_token', authResult.idToken);
-          this.getUserProfile().then(() => this.router.navigate([ 'todos' ]));
-        });
-      })
-      .catch(() => console.error('auth0 config error'));
-  }
   getUserProfile(): Promise<any> {
     return new Promise(res => {
-      let prof = JSON.parse(localStorage.getItem('profile'));
+      const prof = JSON.parse(localStorage.getItem('profile'));
       if (prof) {
         res(prof);
         return;
+      } else if (this.accessToken) {
+        this.lock.getUserInfo(this.accessToken, (err: any, profile: any): void => {
+          if (err) { throw err; }
+          localStorage.setItem('profile', JSON.stringify(profile));
+          res(profile);
+        });
+      } else {
+        res(null);
       }
-      this.lock.getProfile(this.idToken, (err: any, profile: any) => {
-        if (err) { throw new Error(err.message); }
-        localStorage.setItem('profile', JSON.stringify(profile));
-        res(profile);
-      });
-    });
+    })
+    .catch(err => console.error(err.message));
   }
   login(): void {
     this.lock.show();
@@ -55,7 +56,10 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('profile');
     localStorage.removeItem('id_token');
+    localStorage.removeItem('access_token');
+
     this.idToken = null;
+    this.accessToken = null;
 
     this.router.navigate([ 'home' ]);
   }

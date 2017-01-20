@@ -12,14 +12,10 @@ pids
 # TypeScript cache
 .tscache
 
-# *.map files in dist directory
-dist/**/*.map
-
-# auth0 config file
-**/auth0.config.*
-
 # compiled output
 /.tsctmp
+/dist
+/tmp
 
 # dependencies
 /node_modules
@@ -47,6 +43,9 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
+
+# dotenv
+.env

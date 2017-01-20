@@ -1,6 +1,11 @@
 # Simple Todo
 
-This is yet another simple todo app for learning NodeJS, Express, Typescript, Mongoose and Angular2.
+This is yet another simple todo app! It is using next components:
+
+* Front-End - Angular2 + Bootstrap 3
+* Back-End - NodeJS + Express + TypeScript
+* Database - MongoDB + Mongoose
+* Authentication - Third-party JWT Authentication (auth0)
 
 ## Getting Started
 
@@ -13,11 +18,14 @@ Installing dependencies:
 cd simple-todo
 npm install
 ```
-Start mongod service, if it doesn't autostart with OS. By default app connect to
+Create .env file in root folder and set next env variables:
 ```
-mongodb://localhost/ng2expressTodo
+AUTH0_DOMAIN=your_auth0_domain
+AUTH0_CLIENT_ID=your_auth0_client_id
+AUTH0_CLIENT_SECRET=your_auth0_client_secret
+MONGODB_URI=link_to_your_mongo_database
 ```
-in development mode. You may change it in server/app.ts file.
+you may need to create auth0 account here - [auth0](https://auth0.com).
 
 ## Commands
 
@@ -26,11 +34,6 @@ Starting app under development env with nodemon:
 npm run dev
 ```
 Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
-
-Building whole project for production:
-```
-npm run build-prod
-```
 
 # Angular2 client
 

@@ -42,3 +42,15 @@ a.btn {
 a.disabled {
   pointer-events: none;
 }
+
+.done {
+  margin-right: 10px;
+}
+
+.todoName {
+  display: inline-block;
+}
+
+.reminder {
+  padding-left: 22px;
+}

@@ -58,24 +58,23 @@
         [id]="todo._id"
         (click)="update(todo); $event.stopPropagation()"
         role="button">
-      <input type="checkbox" [checked]="todo.done">
-      <span>{{todo.todo}}</span>
-      <span class="pull-right">
-        <span *ngIf="todo.reminder">
-          {{humanReadableDate(todo.reminder)}}
-        </span>
-        <span>
+      <div>
+        <input type="checkbox" [checked]="todo.done" class="pull-left done">
+        <span class="todoName">{{todo.todo}}</span>
+        <span class="pull-right buttons">
           <button class="btn btn-xs btn-primary"
                   (click)="showModal(todo, 'edit'); $event.stopPropagation()">
             Edit
           </button>
-        </span>
-        <span>
           <button class="btn btn-xs btn-danger"
                   (click)="showModal(todo, 'delete'); $event.stopPropagation()">
             Delete
           </button>
         </span>
+      </div>
+      <span *ngIf="todo.reminder"
+            class="small text-muted reminder">
+        Remind me at {{reminderDate(todo.reminder)}}
       </span>
     </li>
   </div>

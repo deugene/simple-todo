@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 
 import 'rxjs/add/operator/toPromise';
@@ -10,17 +10,14 @@ import { Todo } from './shared/todo';
 export class TodoService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  constructor(
-    private http: Http,
-    private authHttp: AuthHttp
-  ) { }
+  constructor(private authHttp: AuthHttp) { }
 
   getAll(user_id: string): Promise<Todo[]> {
       return this.authHttp.get(`api/todos/${user_id}`)
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err); }
+        if (result.err) {  throw result.err; }
         return result.data as Todo[];
       })
       .catch(this.handleError);
@@ -30,7 +27,7 @@ export class TodoService {
       .toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err); }
+        if (result.err) {  throw result.err; }
         return result.data as Todo;
       })
       .catch(this.handleError);
@@ -41,7 +38,7 @@ export class TodoService {
       ).toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err); }
+        if (result.err) {  throw result.err; }
         return null;
       })
       .catch(this.handleError);
@@ -52,7 +49,7 @@ export class TodoService {
     ).toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err); }
+        if (result.err) {  throw result.err; }
         return null;
       })
       .catch(this.handleError);
@@ -63,7 +60,7 @@ export class TodoService {
     ).toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err); }
+        if (result.err) {  throw result.err; }
         return null;
       })
       .catch(this.handleError);
@@ -75,13 +72,13 @@ export class TodoService {
     ).toPromise()
       .then(res => {
         let result = res.json();
-        if (result.err) { throw new Error(result.err); }
+        if (result.err) {  throw result.err; }
         return null;
       })
       .catch(this.handleError);
   }
 
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+  private handleError(err: any): void {
+    console.error(err);
   }
 }

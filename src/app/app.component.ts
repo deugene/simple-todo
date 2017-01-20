@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   styleUrls: [ './app.component.css' ]
 })
 export class AppComponent {
-  title = 'Another 1500 Todo App';
+  title = 'Simple Todo App';
 
   constructor(private authService: AuthService) { }
 }

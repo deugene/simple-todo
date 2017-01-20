@@ -65,12 +65,9 @@ export class TodosComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.authService.getUserProfile()
-      .then(profile => this.user_id = profile.identities[0].user_id)
-      .then(() => this.getAll()
-        .then(() => {
-          this.remind();
-        })
-      );
+      .then(profile => this.user_id = profile.userId)
+      .then(() => this.getAll())
+      .then(() => this.remind());
   }
 
   // drag and drop functional
@@ -135,7 +132,8 @@ export class TodosComponent implements OnInit {
     this.todo.user_id = this.user_id;
 
 
-    this.todoService.create(this.todo).then(() => this.getAll());
+    this.todoService.create(this.todo)
+      .then(() => this.getAll());
   }
 
   update(todo?: Todo): void {
@@ -173,7 +171,7 @@ export class TodosComponent implements OnInit {
         );
       });
     })
-    .then(() => setTimeout(this.remind.bind(this), 3000));
+    .then(() => setTimeout(this.remind.bind(this), 10000));
   }
 
   onDestroy(id: string): void {
@@ -186,11 +184,11 @@ export class TodosComponent implements OnInit {
     });
   }
 
-  humanReadableDate(dateTime: string): string {
+  reminderDate(dateTime: string): string {
     let dateWithGmt = Date.parse(dateTime) + this.gmt;
-    let date = new Date(dateWithGmt).toLocaleDateString();
-    let time = new Date(dateWithGmt).toLocaleTimeString();
-    return date + ' ' + time;
+    let date = new Date(dateWithGmt).toDateString();
+    let time = new Date(dateWithGmt).toTimeString().slice(0, 5);
+    return time + ' ' + date;
   }
 
   // forms functional
@@ -235,18 +233,15 @@ export class TodosComponent implements OnInit {
     if (!this.todoForm) { return; }
     const form = this.todoForm;
 
+    // tslint:disable-next-line:forin
     for (const field in this.formErrors) {
-      if (this.formErrors.hasOwnProperty(field)) {
-        this.formErrors[field] = '';
-        const control = form.get(field);
-
-        if (control && control.dirty && !control.valid) {
-          const messages = this.validationMessages[field];
-          for (const key in control.errors) {
-            if (control.errors.hasOwnProperty(key)) {
-              this.formErrors[field] += messages[key] + ' ';
-            }
-          }
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        // tslint:disable-next-line:forin
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
         }
       }
     }
