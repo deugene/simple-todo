@@ -7,8 +7,6 @@ let Auth0Lock = require('auth0-lock').default;
 @Injectable()
 
 export class AuthService {
-  private idToken: string;
-  private accessToken: string;
   private lock: any;
 
   constructor(
@@ -19,8 +17,6 @@ export class AuthService {
       'deugene.eu.auth0.com'
     );
     this.lock.on('authenticated', (authResult: any): void => {
-      this.idToken = authResult.idToken;
-      this.accessToken = authResult.accessToken;
       localStorage.setItem('id_token', authResult.idToken);
       localStorage.setItem('access_token', authResult.accessToken);
       this.getUserProfile()
@@ -33,22 +29,25 @@ export class AuthService {
   }
 
   getUserProfile(): Promise<any> {
-    return new Promise(res => {
-      const prof = JSON.parse(localStorage.getItem('profile'));
-      if (prof) {
-        res(prof);
+    return new Promise((res, rej) => {
+      const userProfile = JSON.parse(localStorage.getItem('profile'));
+      const accessToken = localStorage.getItem('access_token');
+      if (userProfile) {
+        res(userProfile);
         return;
-      } else if (this.accessToken) {
-        this.lock.getUserInfo(this.accessToken, (err: any, profile: any): void => {
+      } else if (accessToken) {
+        this.lock.getUserInfo(accessToken, (err: any, profile: any): void => {
           if (err) { throw err; }
           localStorage.setItem('profile', JSON.stringify(profile));
           res(profile);
         });
       } else {
-        res(null);
+        rej(new Error('Profile Not Found'));
       }
     })
-    .catch(err => console.error(err.message));
+    .catch(err => {
+      if (err.message !== 'Profile Not Found') { console.error(err); }
+    });
   }
   login(): void {
     this.lock.show();
@@ -58,15 +57,9 @@ export class AuthService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('access_token');
 
-    this.idToken = null;
-    this.accessToken = null;
-
     this.router.navigate([ 'home' ]);
   }
   loggedIn(): boolean {
-    return tokenNotExpired(
-      'id_token',
-      localStorage.getItem('id_token') || this.idToken
-    );
+    return tokenNotExpired('id_token', localStorage.getItem('id_token'));
   }
 }
